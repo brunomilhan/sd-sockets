@@ -39,7 +39,6 @@ public class KeepAlive {
      *
      */
     private class TimerTaskKeepAlive extends TimerTask {
-
         private Multicast multicast;
         private Message msg;
         private Player player;
@@ -47,11 +46,9 @@ public class KeepAlive {
         public TimerTaskKeepAlive(Multicast multicast, Player player) {
             this.player = player;
             this.multicast = multicast;
+            this.msg = new Message(player, Message.KEEPALIVE, this.player.getName());
 
-            // String message = "KEEPALIVE { " + "_idClient="
-            // + player.get_idClient() + ", ip=" + player.getIpAddress()
-            // + ", port=" + player.getPort() + ", status=1 }";
-            multicast.request(new Message(player, Message.KEEPALIVE, player.getName()));
+            multicast.request(msg);
 
         }
 
