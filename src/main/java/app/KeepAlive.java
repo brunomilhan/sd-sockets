@@ -13,6 +13,7 @@ import java.util.TimerTask;
 public class KeepAlive {
     private Multicast multicast;
     private Player player;
+    private Timer timer;
 
     public KeepAlive(Multicast multicast, Player player){
         this.multicast = multicast;
@@ -21,8 +22,13 @@ public class KeepAlive {
 
     }
 
+    public void updatePlayer(Player player){
+        this.player = player;
+        this.timer.purge();
+        timerTaskKeepAlive();
+    }
+
     public void timerTaskKeepAlive() {
-        Timer timer;
         timer = new Timer(true);
         timer.schedule(new TimerTaskKeepAlive(this.multicast, this.player), 0,
                 5000);
@@ -54,8 +60,8 @@ public class KeepAlive {
 
         @Override
         public void run() {
-            System.out.println("Timer task run");
-            System.out.println("KeepAlive multicast task schedule");
+            //System.out.println("Timer task run");
+            //System.out.println("KeepAlive multicast task schedule");
 
             this.multicast.request(msg);
         }

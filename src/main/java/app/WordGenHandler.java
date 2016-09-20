@@ -9,36 +9,26 @@ import model.WordGenerator;
  */
 public class WordGenHandler implements ResHandlerInterface {
     private App app;
-    private WordGenerator wordGenerator;
 
-    public WordGenHandler( WordGenerator wordGenerator){
-        this.wordGenerator = wordGenerator;
+    public WordGenHandler(App app) {
+        this.app = app;
     }
 
     public void handler(Message message) {
-
         if (message.getType().equals(Message.CHAR)){
-            wordGenerator.receiveChar(message, app);
+            app.generator().receiveChar(message, app);
         }
         if (message.getType().equals(Message.WORD)){
-            wordGenerator.receiveWord(message, app);
+            app.generator().receiveWord(message, app);
         }
         if (message.getType().equals(Message.LEAVE)){
-            wordGenerator.receiveLeave(message, app);
-            System.out.println("saiu: " + new String(message.getBody()));
-
+            app.generator().receiveLeave(message, app);
         }
-
         if (message.getType().equals(Message.KEEPALIVE)){
-            this.wordGenerator.playerKeepAlive(app, message.getPlayer());
+            app.generator().playerKeepAlive(app, message.getPlayer());
         }
         if (message.getType().equals(Message.GAME_INFO)){
             System.out.println(message.getBodyString());
         }
-
-    }
-
-    public void setApp(App app) {
-        this.app = app;
     }
 }

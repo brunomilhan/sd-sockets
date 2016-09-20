@@ -13,7 +13,12 @@ import java.util.Scanner;
  * Created by Bruno on 13/09/2016.
  */
 public class SimpleUI {
+    private App app;
     private Scanner in = new Scanner(System.in);
+
+    public SimpleUI(App app) {
+        this.app = app;
+    }
 
     public void registerPlayer(Player player) {
         line();
@@ -24,14 +29,14 @@ public class SimpleUI {
         line();
     }
 
-    public void registerWordGen(WordGenerator wordGenerator, App app){
+    public void registerWordGen(){
         line();
         System.out.println("JOGO DA FORCA - GERADOR DE PALAVRAS");
         line();
         System.out.println("Digite a palavra: ");
-        wordGenerator.setFinalWord(in.next());
+        app.generator().setFinalWord(in.next());
         System.out.println("Aguardando jogadores...");
-        app.request(new Message(wordGenerator, Message.NEXT, Message.NULL));
+        app.request(new Message(app.player(), Message.NEXT, Message.NULL));
         line();
     }
 

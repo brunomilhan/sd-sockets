@@ -2,6 +2,7 @@ package app;
 
 import connection.Multicast;
 import connection.ResHandlerInterface;
+import model.Game;
 import model.Message;
 import model.Player;
 import model.WordGenerator;
@@ -22,71 +23,68 @@ public class App {
     // Model instances
     private Player player;
     private WordGenerator wordGenerator;
+    private Game game;
 
     // UI instances
-    private SimpleUI ui = new SimpleUI();
+    private SimpleUI ui;
 
-
-    // EM DESUSOOOO, RETIRAR!!!!
-    // Constructors
-    public App(ResHandlerInterface handler){
-        this.handler = handler;
-    }
-
-    public App(){
+    public App() {
         this.player = new Player();
-        // isso precisa?
-        this.ui = new SimpleUI();
-        this.handler = new GenericHandler(this, player, ui);
+        this.game = new Game();
+        this.ui = new SimpleUI(this);
+        this.handler = new GenericHandler(this);
     }
 
-    // EM DESUSOOOO, RETIRAR!!!!
-    public void connectMulticast(int port){
-        this.multicast = new Multicast(port);
-    }
-
-    public void listen(){
-        this.multicast.listenHandler(this.handler);
-    }
-
-    public void initKeepAlive(){
-        System.out.println("enviando multiast keepalive");
-        this.keepAlive = new KeepAlive(this.multicast, this.player);
-
-        this.keepAlive.sendKeepAlive();
-        this.keepAlive.timerTaskKeepAlive();
-    }
-
-    public void request(Message message){
-        multicast.request(message);
-    }
-
-    public void setNewHandler(){
-        this.wordGenerator = new WordGenerator();
-        this.player = this.wordGenerator;
-        this.handler = new WordGenHandler(wordGenerator);
-        this.multicast.changeListenerHandler(handler);
-
-    }
-
-    public void setHandler(ResHandlerInterface handler) {
-        this.handler = handler;
-    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Public Methods
+    // Private Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void connectMulticast(){
-        this.multicast = new Multicast(PORT);
+    private void connectMulticast() {
+        multicast = new Multicast(PORT);
     }
 
+    private void listen() {
+        multicast.listenHandler(handler);
+    }
+
+    private void initKeepAlive() {
+        System.out.println("Init KeepAlive TimerTask");
+        keepAlive = new KeepAlive(multicast, player);
+        keepAlive.sendKeepAlive();
+        keepAlive.timerTaskKeepAlive();
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void initGame() {
         connectMulticast();
-
         ui.registerPlayer(player);
         initKeepAlive();
         listen();
     }
+
+    public void updatePlayerKeepAlive() {
+        keepAlive.updatePlayer(player);
+    }
+
+    public void request(Message message) {
+        multicast.request(message);
+    }
+
+    public void setNewHandler() {
+        wordGenerator = new WordGenerator();
+        handler = new WordGenHandler(this);
+        multicast.changeListenerHandler(handler);
+    }
+
+    public Player player(){
+        return player;
+    }
+
+    public WordGenerator generator(){
+        return wordGenerator;
+    }
+    public SimpleUI ui(){
+        return ui;
+    }
+
 }

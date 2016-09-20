@@ -20,11 +20,9 @@ public class Player {
     private String privateKey;
 
     private List<Player> players;
-    //private List<WordGenerator> generators;
     private boolean isGenerator;
 
     public Player() {
-        //this.generators = new ArrayList<WordGenerator>();
         this.players = new ArrayList<Player>();
         this.moves = 0;
         this.score = 0;
@@ -76,33 +74,6 @@ public class Player {
         return fails;
     }
 
-    /*public void handlerKeepAlive(App app, Message message) {
-        String playerName = message.getPlayer();
-        boolean have = false;
-        boolean haveGenList = false;
-        for (Player p : players) {
-            if (p.getName().equals(playerName))
-                have = true;
-        }
-
-        for (WordGenerator g : generators) {
-            if (g.getName().equals(playerName) &&)
-                have = true;
-        }
-
-        for (WordGenerator w : generators) {
-            if (w.getName().equals(playerName))
-                haveGenList = true;
-        }
-
-        if (!have)
-            if (players.size() < Game.MAXPLAYERS)
-                players.add(new Player(playerName));
-
-        if (!haveGenList)
-            if (generators.size() < Game.MAXPLAYERS)
-                generators.add(new WordGenerator(playerName));
-    }*/
 
     public void handlerKeepAlive(App app, Message message) {
         String playerName = message.getPlayer();
@@ -116,13 +87,8 @@ public class Player {
                 haveGenerator = true;
         }
 
-        if (players.size() < Game.MAXPLAYERS) {
-            // Add na lista de jogadores desse usuário
-            if (!have)
-                players.add(new Player(playerName));
-
-
-        }
+        if (!have)
+            players.add(new Player(playerName));
 
         if (players.size() >= Game.MAXPLAYERS){
             // Se não tiver gerador, então o primeiro da lista vira gerador
@@ -134,9 +100,21 @@ public class Player {
         }
     }
 
-    public void checkUpdateGenerator(App app, Message message) {
-        if (message.getPlayer().equals(this.name)){
+    public void checkNewGenerator(App app, Message message) {
+            if (message.getPlayer().equals(name)){
+            isGenerator = true;
             app.setNewHandler();
+            app.updatePlayerKeepAlive();
+            app.ui().registerWordGen();
         }
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public List<Player> players() {
+        return players;
+    }
+
 }
+
+

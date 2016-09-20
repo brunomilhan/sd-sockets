@@ -11,7 +11,7 @@ import ui.SimpleUI;
  */
 public class Test6 {
     public static void main(String[] args){
-        Player player = new Player();
+        /*Player player = new Player();
         SimpleUI ui = new SimpleUI();
         App app = new App();
         GenericHandler handler = new GenericHandler(app, player, ui);
@@ -26,6 +26,10 @@ public class Test6 {
         //app.request(new Message(player, Message.KEEPALIVE, player.getName()));
 
 
-        app.listen();
+        app.listen();*/
+
+        App app = new App();
+
+        app.initGame();
     }
 }

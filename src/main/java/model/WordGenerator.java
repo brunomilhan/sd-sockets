@@ -12,7 +12,7 @@ public class WordGenerator extends Player{
     private String finalWord;
     private String lastWord = "";
     private String wrongs;
-    private List<Player> players;
+    //private List<Player> players;
     private String lastPlayer = null;
     private double wordTime;
     private double phraseTime;
@@ -21,7 +21,6 @@ public class WordGenerator extends Player{
 
     public WordGenerator() {
         super.setName("generator");
-        this.players = new ArrayList<Player>();
     }
 
     public WordGenerator(String playerName) {
@@ -79,7 +78,7 @@ public class WordGenerator extends Player{
         }
 
         // Atualiza o placar do jogador no gerador de palavras
-        for (Player p : players) {
+        for (Player p : players()) {
             if (p.getName().equals(messsage.getPlayer())) {
                 if (correct)
                     p.setScore(Game.SCORE_CHAR);
@@ -95,14 +94,14 @@ public class WordGenerator extends Player{
     }
 
     private void countPlayerMoves(App app, String playerName, boolean isLeave) {
-        for (Player p : players) {
+        for (Player p : players()) {
             if (p.getName().equals(playerName)) {
                 if (p.getMoves() < Game.MOVES_LIMIT && !isLeave) {
                     p.setMoves();
                     app.request(new Message(this, Message.NEXT, p.getName()));
                 } else {
                     p.resetMoves();
-                    for (Player p2 : players) {
+                    for (Player p2 : players()) {
                         if (!p2.getName().equals(playerName)) {
                             app.request(new Message(this, Message.NEXT, p2.getName()));
                         }
@@ -118,7 +117,7 @@ public class WordGenerator extends Player{
         if (checkWordComplete(app))
             complete = "\n Palavra Completa!!! - Vencedor: " + message.getPlayer();
 
-        for (Player p : players)
+        for (Player p : players())
             scoreBoard += " Jogador: " + p.getName() + " | Pontos: " + p.getScore()
                     + " | Falhas: " + p.getFails() + "\n";
 
@@ -155,15 +154,15 @@ public class WordGenerator extends Player{
     //Verificar connexão dos players
     public void playerKeepAlive(App app, String playerName) {
         boolean have = false;
-        for (Player p : players) {
+        for (Player p : players()) {
             if (p.getName().equals(playerName))
                 have = true;
         }
         if (!have)
-            if (players.size() < Game.MAXPLAYERS)
-                players.add(new Player(playerName));
-        if (players.size() == Game.MAXPLAYERS && lastPlayer == null)
-            app.request(new Message(this, Message.NEXT, players.get(0).getName()));
+            if (players().size() < Game.MAXPLAYERS)
+                players().add(new Player(playerName));
+        if (players().size() == Game.MAXPLAYERS && lastPlayer == null)
+            app.request(new Message(this, Message.NEXT, players().get(0).getName()));
     }
 
     public void receiveWord(Message message, App app) {
