@@ -45,7 +45,7 @@ public class WordGenerator extends Player{
      */
     public void receiveChar(Message message, App app) {
         System.out.println("recebeu o char");
-        updateScore(message);
+        updateScore(app, message);
         mountWord(message.getBodyString());
         refreshGameInfo(app, message);
         countPlayerMoves(app, message.getPlayer(), false);
@@ -60,7 +60,7 @@ public class WordGenerator extends Player{
         return isComplete;
     }
 
-    private void updateScore(Message messsage) {
+    private void updateScore(App app, Message messsage) {
         boolean correct = false;
         boolean isWord = false;
         /*if (!this.lastWord.contains(messsage.getBodyString()))
@@ -80,7 +80,7 @@ public class WordGenerator extends Player{
         }
 
         // Atualiza o placar do jogador no gerador de palavras
-        for (Player p : players()) {
+        for (Player p : app.player().players()) {
             if (p.getName().equals(messsage.getPlayer())) {
                 if (correct)
                     p.setScore(Game.SCORE_CHAR);
@@ -119,7 +119,7 @@ public class WordGenerator extends Player{
         if (checkWordComplete(app))
             complete = "\n Palavra Completa!!! - Vencedor: " + message.getPlayer();
 
-        for (Player p : players())
+        for (Player p : app.player().players())
             scoreBoard += " Jogador: " + p.getName() + " | Pontos: " + p.getScore()
                     + " | Falhas: " + p.getFails() + "\n";
 
@@ -168,7 +168,7 @@ public class WordGenerator extends Player{
     }*/
 
     public void receiveWord(Message message, App app) {
-        updateScore(message);
+        updateScore(app, message);
         refreshGameInfo(app, message);
         countPlayerMoves(app, message.getPlayer(), false);
     }

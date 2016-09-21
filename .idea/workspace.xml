@@ -2,26 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc6d502a-976e-40e8-916e-70563adb2383" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/app/App.class" afterPath="$PROJECT_DIR$/build/classes/main/app/App.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/app/GenericHandler.class" afterPath="$PROJECT_DIR$/build/classes/main/app/GenericHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/app/PlayerHandler.class" afterPath="$PROJECT_DIR$/build/classes/main/app/PlayerHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/app/WordGenHandler.class" afterPath="$PROJECT_DIR$/build/classes/main/app/WordGenHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/connection/Multicast$Listen.class" afterPath="$PROJECT_DIR$/build/classes/main/connection/Multicast$Listen.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/connection/Multicast.class" afterPath="$PROJECT_DIR$/build/classes/main/connection/Multicast.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/model/Message.class" afterPath="$PROJECT_DIR$/build/classes/main/model/Message.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/model/Player.class" afterPath="$PROJECT_DIR$/build/classes/main/model/Player.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/model/WordGenerator.class" afterPath="$PROJECT_DIR$/build/classes/main/model/WordGenerator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/ui/SimpleUI.class" afterPath="$PROJECT_DIR$/build/classes/main/ui/SimpleUI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/app/App.java" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/app/GenericHandler.java" afterPath="$PROJECT_DIR$/src/main/java/app/GenericHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/app/PlayerHandler.java" afterPath="$PROJECT_DIR$/src/main/java/app/PlayerHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/app/WordGenHandler.java" afterPath="$PROJECT_DIR$/src/main/java/app/WordGenHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/connection/Multicast.java" afterPath="$PROJECT_DIR$/src/main/java/connection/Multicast.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Message.java" afterPath="$PROJECT_DIR$/src/main/java/model/Message.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Player.java" afterPath="$PROJECT_DIR$/src/main/java/model/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/WordGenerator.java" afterPath="$PROJECT_DIR$/src/main/java/model/WordGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ui/SimpleUI.java" afterPath="$PROJECT_DIR$/src/main/java/ui/SimpleUI.java" />
     </list>
     <ignored path="sd-sockets.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -115,7 +98,7 @@
           <file leaf-file-name="SimpleUI.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/ui/SimpleUI.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="438">
+                <state relative-caret-position="234">
                   <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
                   <folding />
                 </state>
@@ -129,7 +112,7 @@
           <file leaf-file-name="Multicast.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/connection/Multicast.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="57">
+                <state relative-caret-position="312">
                   <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
                   <folding>
                     <marker date="1474445938133" expanded="false" signature="4187:4235" ph="(Runnable) () → {" />
@@ -146,7 +129,7 @@
           <file leaf-file-name="GenericHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/app/GenericHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="494">
+                <state relative-caret-position="523">
                   <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -158,15 +141,17 @@
           <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/model/Player.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="261">
-                  <caret line="149" column="27" selection-start-line="149" selection-start-column="27" selection-end-line="149" selection-end-column="27" />
+                <state relative-caret-position="323">
+                  <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
                   <folding>
-                    <element signature="e#1081#1082#0" expanded="true" />
-                    <element signature="e#1108#1109#0" expanded="true" />
-                    <element signature="e#4290#4291#0" expanded="true" />
-                    <element signature="e#4315#4316#0" expanded="true" />
-                    <element signature="e#4792#4793#0" expanded="true" />
-                    <element signature="e#4855#4856#0" expanded="true" />
+                    <element signature="e#1157#1158#0" expanded="true" />
+                    <element signature="e#1184#1185#0" expanded="true" />
+                    <element signature="e#4310#4311#0" expanded="true" />
+                    <element signature="e#4340#4341#0" expanded="true" />
+                    <element signature="e#4366#4367#0" expanded="true" />
+                    <element signature="e#4391#4392#0" expanded="true" />
+                    <element signature="e#4868#4869#0" expanded="true" />
+                    <element signature="e#4931#4932#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -175,9 +160,14 @@
           <file leaf-file-name="WordGenerator.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/model/WordGenerator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="561">
-                  <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
-                  <folding />
+                <state relative-caret-position="239">
+                  <caret line="169" column="27" selection-start-line="169" selection-start-column="27" selection-end-line="169" selection-end-column="27" />
+                  <folding>
+                    <element signature="e#488#489#0" expanded="true" />
+                    <element signature="e#530#531#0" expanded="true" />
+                    <element signature="e#577#578#0" expanded="true" />
+                    <element signature="e#618#619#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -557,10 +547,10 @@
         <option value="$PROJECT_DIR$/src/main/java/app/GenericHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/app/PlayerHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/connection/Multicast.java" />
-        <option value="$PROJECT_DIR$/src/main/java/model/WordGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/app/WordGenHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/model/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/ui/SimpleUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/model/WordGenerator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/model/Player.java" />
       </list>
     </option>
   </component>
@@ -1476,12 +1466,12 @@
       <workItem from="1473292190784" duration="677000" />
       <workItem from="1473684354110" duration="73153000" />
       <workItem from="1473862956013" duration="17234000" />
-      <workItem from="1474296425719" duration="37965000" />
+      <workItem from="1474296425719" duration="39964000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145608000" />
+    <option name="totallyTimeSpent" value="147607000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1498,14 +1488,14 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33586133" sideWeight="0.38965884" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33586133" sideWeight="0.3880597" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30552545" sideWeight="0.5021322" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25893825" sideWeight="0.6242004" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22751896" sideWeight="0.4914712" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22751896" sideWeight="0.5127932" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22751896" sideWeight="0.48720682" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09754797" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1516,7 +1506,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25893825" sideWeight="0.37579957" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25893825" sideWeight="0.37260127" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1916,8 +1906,8 @@
         <state relative-caret-position="210">
           <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
           <folding>
-            <element signature="e#1003#1004#0" expanded="true" />
-            <element signature="e#1033#1034#0" expanded="true" />
+            <element signature="e#1003#1004#0" expanded="false" />
+            <element signature="e#1033#1034#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1964,9 +1954,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/app/WordGenHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ui/SimpleUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/connection/Multicast.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
+        <state relative-caret-position="312">
           <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
           <folding>
             <marker date="1474445938133" expanded="false" signature="4187:4235" ph="(Runnable) () → {" />
@@ -1979,17 +1985,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/WordGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/app/GenericHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
+        <state relative-caret-position="523">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1997,34 +1995,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/app/WordGenHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/WordGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
-          <folding />
+        <state relative-caret-position="239">
+          <caret line="169" column="27" selection-start-line="169" selection-start-column="27" selection-end-line="169" selection-end-column="27" />
+          <folding>
+            <element signature="e#488#489#0" expanded="true" />
+            <element signature="e#530#531#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#618#619#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="149" column="27" selection-start-line="149" selection-start-column="27" selection-end-line="149" selection-end-column="27" />
+        <state relative-caret-position="323">
+          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
           <folding>
-            <element signature="e#1081#1082#0" expanded="true" />
-            <element signature="e#1108#1109#0" expanded="true" />
-            <element signature="e#4290#4291#0" expanded="true" />
-            <element signature="e#4315#4316#0" expanded="true" />
-            <element signature="e#4792#4793#0" expanded="true" />
-            <element signature="e#4855#4856#0" expanded="true" />
+            <element signature="e#1157#1158#0" expanded="true" />
+            <element signature="e#1184#1185#0" expanded="true" />
+            <element signature="e#4310#4311#0" expanded="true" />
+            <element signature="e#4340#4341#0" expanded="true" />
+            <element signature="e#4366#4367#0" expanded="true" />
+            <element signature="e#4391#4392#0" expanded="true" />
+            <element signature="e#4868#4869#0" expanded="true" />
+            <element signature="e#4931#4932#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ui/SimpleUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>

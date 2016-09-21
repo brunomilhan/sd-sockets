@@ -34,12 +34,15 @@ public class Player implements Comparable<Player> {
     public Player(String playerName, int id) {
         this.name = playerName;
         this.id = id;
+        this.moves = 0;
+        this.score = 0;
+        this.fails = 0;
     }
 
-    public Player(String playerName, boolean isGenerator) {
+/*    public Player(String playerName, boolean isGenerator) {
         this.name = playerName;
         this.isGenerator = isGenerator;
-    }
+    }*/
 
     public String getName() {
         return name;
