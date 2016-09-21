@@ -96,14 +96,14 @@ public class WordGenerator extends Player{
     }
 
     private void countPlayerMoves(App app, String playerName, boolean isLeave) {
-        for (Player p : players()) {
+        for (Player p : app.player().players()) {
             if (p.getName().equals(playerName)) {
                 if (p.getMoves() < Game.MOVES_LIMIT && !isLeave) {
                     p.setMoves();
                     app.request(new Message(this, Message.NEXT, p.getName()));
                 } else {
                     p.resetMoves();
-                    for (Player p2 : players()) {
+                    for (Player p2 : app.player().players()) {
                         if (!p2.getName().equals(playerName)) {
                             app.request(new Message(this, Message.NEXT, p2.getName()));
                         }
