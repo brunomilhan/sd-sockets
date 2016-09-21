@@ -3,6 +3,7 @@ package model;
 import app.App;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,6 +44,7 @@ public class WordGenerator extends Player{
      * @param app
      */
     public void receiveChar(Message message, App app) {
+        System.out.println("recebeu o char");
         updateScore(message);
         mountWord(message.getBodyString());
         refreshGameInfo(app, message);
@@ -152,7 +154,7 @@ public class WordGenerator extends Player{
     }
 
     //Verificar connexão dos players
-    public void playerKeepAlive(App app, String playerName) {
+    /*public void playerKeepAlive(App app, String playerName) {
         boolean have = false;
         for (Player p : players()) {
             if (p.getName().equals(playerName))
@@ -163,7 +165,7 @@ public class WordGenerator extends Player{
                 players().add(new Player(playerName));
         if (players().size() == Game.MAXPLAYERS && lastPlayer == null)
             app.request(new Message(this, Message.NEXT, players().get(0).getName()));
-    }
+    }*/
 
     public void receiveWord(Message message, App app) {
         updateScore(message);
@@ -175,5 +177,10 @@ public class WordGenerator extends Player{
     public void receiveLeave(Message message, App app) {
         refreshGameInfo(app, message);
         countPlayerMoves(app, message.getPlayer(), true);
+    }
+
+    public void requestFirstPlayer(App app){
+        String playerName = app.player().players().get(1).getName();
+        app.request(new Message(app.player(), Message.NEXT, playerName));
     }
 }

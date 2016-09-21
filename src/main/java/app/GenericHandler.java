@@ -21,6 +21,15 @@ public class GenericHandler implements ResHandlerInterface {
         if (message.getType().equals(Message.NEW_GEN_REQUEST)) {
             app.player().checkNewGenerator(app, message);
         }
+        if (message.getType().equals(Message.I_AM_GENERATOR)){
+            app.player().updateGenerator(message);
+        }
+        if (message.getType().equals(Message.NEXT)) {
+             app.player().isNext(app, message);
+        }
+        if (message.getType().equals(Message.GAME_INFO)) {
+            System.out.println(message.getBodyString());
+        }
 
     }
 }

@@ -17,16 +17,18 @@ public class Message {
 
     // WordGenerator types
     public static final String NEXT = "next";
-    public static final String NULL = "null" ;
+    public static final String NULL = "null";
     public static final String KEEPALIVE = "keepalive";
     public static final String GAME_INFO = "refresh_info";
     public static final String GEN_WORD = "gen_word";
     public static final String NEW_GEN_REQUEST = "NEW_GEN_REQUEST";
+    public static final String I_AM_GENERATOR = "I_AM_GENERATOR";
 
 
     private String bodyString;
     private byte[] body;
     private String player;
+    private int playerID;
     private String resStatus;
     private String type;
 
@@ -61,6 +63,7 @@ public class Message {
     public Message(Player player, String type, String body) {
         this.body = new byte[1000];
         this.player = player.getName();
+        this.playerID = player.getId();
         this.type = type;
         this.body = body.getBytes();
 
@@ -87,6 +90,7 @@ public class Message {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void mountMsgString() {
         String aux = "player=" + this.player + ";"
+                + "id=" + this.playerID + ";"
                 + "type=" + this.type + ";"
                 + "body=" + new String(this.body) + ";";
 
@@ -104,9 +108,10 @@ public class Message {
         String[] split = aux.split(";");
 
         this.player = split[0].split("=")[1];
-        this.type = split[1].split("=")[1];
+        this.playerID = Integer.parseInt(split[1].split("=")[1]);
+        this.type = split[2].split("=")[1];
         //String[] aux1 = split[2].split("=")[1].split(";");
-        this.bodyString = split[2].split("=")[1];
+        this.bodyString = split[3].split("=")[1];
 
         //System.out.println("Msg obj Mounted= " + type + " - " + player + " - " + getStringBody());
 
@@ -126,7 +131,6 @@ public class Message {
     public byte[] getBody() {
         return body;
     }
-
 
 
     public String getBodyString() {
@@ -162,6 +166,7 @@ public class Message {
         return new String(body);
     }
 
-
-
+    public int getPlayerID() {
+        return playerID;
+    }
 }

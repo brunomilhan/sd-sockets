@@ -36,11 +36,11 @@ public class SimpleUI {
         System.out.println("Digite a palavra: ");
         app.generator().setFinalWord(in.next());
         System.out.println("Aguardando jogadores...");
-        app.request(new Message(app.player(), Message.NEXT, Message.NULL));
+        app.generator().requestFirstPlayer(app);
         line();
     }
 
-    public void round(Player player, App app) {
+    public void round() {
         int option;
         line();
         System.out.println("Nova rodada");
@@ -56,16 +56,17 @@ public class SimpleUI {
             case 1:
                 System.out.println("Digite a letra: ");
                 s = in.next();
-                app.request(new Message(player, Message.CHAR, s));
+                app.player().requestChar(app, s);
+                //app.request(new Message(app.player(), Message.CHAR, s));
                 break;
             case 2:
                 System.out.println("Digite a palavra: ");
                 s = in.next();
-                app.request(new Message(player, Message.WORD, s));
+                app.request(new Message(app.player(), Message.WORD, s));
                 break;
             case 3:
                 System.out.println("Você desistiu dessa rodada");
-                app.request(new Message(player, Message.LEAVE, player.getName()));
+                app.request(new Message(app.player(), Message.LEAVE, app.player().getName()));
                 break;
         }
         line();

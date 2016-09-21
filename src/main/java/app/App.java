@@ -66,7 +66,7 @@ public class App {
         keepAlive.updatePlayer(player);
     }
 
-    public void request(Message message) {
+     public void request(Message message) {
         multicast.request(message);
     }
 

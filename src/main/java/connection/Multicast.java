@@ -210,13 +210,13 @@ public class Multicast {
 
     public void listenHandler(ResHandlerInterface resHandler) {
         threadListener = new Thread(new Listen(resHandler));
-        threadListener.run();
+        threadListener.start();
     }
 
     public void changeListenerHandler(ResHandlerInterface handler){
         threadListener.interrupt();
         threadListener = new Thread(new Listen(handler));
-        threadListener.run();
+        threadListener.start();
     }
 
     private class Listen implements Runnable{
@@ -231,9 +231,8 @@ public class Multicast {
                 while (true) {
                     DatagramPacket response = new DatagramPacket(message.getBody(), message.getLength());
                     multicastSocket.receive(response);
-                    System.out.println("\n:::::::::::::: Received:" + new String(response.getData()) + " \n");
+                    //System.out.println("\n:::::::::::::: Received:" + new String(response.getData()) + " \n");
 
-                    //aqui é onde tenho que montar a mensagem novamente
                     Message message1 = new Message(response.getData());
 
                     //message.setBody(response.getData());

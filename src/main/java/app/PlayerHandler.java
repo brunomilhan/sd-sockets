@@ -25,7 +25,7 @@ public class PlayerHandler implements ResHandlerInterface {
                 }*/
             if (message.getBodyString().equals(this.player.getName())) {
                 simpleUI.nextRound();
-                simpleUI.round(player, app);
+               // simpleUI.round(player, app);
             }
 
         }
