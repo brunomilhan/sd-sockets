@@ -15,14 +15,12 @@ public class KeepAlive {
     private Player player;
     private Timer timer;
 
-    public KeepAlive(Multicast multicast, Player player){
+    public KeepAlive(Multicast multicast, Player player) {
         this.multicast = multicast;
         this.player = player;
-
-
     }
 
-    public void updatePlayer(Player player){
+    public void updatePlayer(Player player) {
         this.player = player;
         this.timer.purge();
         timerTaskKeepAlive();
@@ -34,15 +32,14 @@ public class KeepAlive {
                 5000);
     }
 
-    public void sendKeepAlive(){
-        multicast.request(new Message(player, Message.KEEPALIVE, player.getName()));
+    public void sendKeepAlive(String publicKey) {
+        multicast.request(new Message(player, Message.KEEPALIVE, publicKey));
     }
 
     /**
      * TimerTask responsible for keepAlive player on multicast socket.
      *
      * @author bruno
-     *
      */
     private class TimerTaskKeepAlive extends TimerTask {
         private Multicast multicast;
@@ -60,9 +57,6 @@ public class KeepAlive {
 
         @Override
         public void run() {
-            //System.out.println("Timer task run");
-            //System.out.println("KeepAlive multicast task schedule");
-
             this.multicast.request(msg);
         }
 

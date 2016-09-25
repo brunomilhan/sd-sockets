@@ -1,5 +1,6 @@
 package app;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import connection.Multicast;
 import connection.ResHandlerInterface;
 import model.Game;
@@ -7,6 +8,7 @@ import model.Message;
 import model.Player;
 import model.WordGenerator;
 import ui.SimpleUI;
+import util.KeyPairGen;
 
 
 /**
@@ -23,16 +25,29 @@ public class App {
     // Model instances
     private Player player;
     private WordGenerator wordGenerator;
-    private Game game;
+    //private Game game;
 
     // UI instances
     private SimpleUI ui;
 
+    // keys
+    KeyPairGen keyPairGen;
+
     public App() {
+
         this.player = new Player();
-        this.game = new Game();
+        //this.game = new Game();
+        genAndGetKey();
         this.ui = new SimpleUI(this);
         this.handler = new GenericHandler(this);
+    }
+
+    private void genAndGetKey(){
+        this.keyPairGen = new KeyPairGen();
+        keyPairGen.generateKeyPair();
+        String key = keyPairGen.getPubKey();
+        player.setPublicKey(key);
+        player.setPrivateKey(keyPairGen.getPrivateKey());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,9 +64,10 @@ public class App {
     private void initKeepAlive() {
         System.out.println("Init KeepAlive TimerTask");
         keepAlive = new KeepAlive(multicast, player);
-        keepAlive.sendKeepAlive();
+        keepAlive.sendKeepAlive(player.getPublicKey());
         keepAlive.timerTaskKeepAlive();
     }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +82,7 @@ public class App {
         keepAlive.updatePlayer(player);
     }
 
-     public void request(Message message) {
+    public void request(Message message) {
         multicast.request(message);
     }
 
@@ -76,14 +92,15 @@ public class App {
         multicast.changeListenerHandler(handler);
     }
 
-    public Player player(){
+    public Player player() {
         return player;
     }
 
-    public WordGenerator generator(){
+    public WordGenerator generator() {
         return wordGenerator;
     }
-    public SimpleUI ui(){
+
+    public SimpleUI ui() {
         return ui;
     }
 

@@ -2,6 +2,7 @@ package model;
 
 import app.App;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,7 @@ public class Player implements Comparable<Player> {
     private int matchesFails; // no maximo 3, ou seja 6 moves
     private String status; // dentro ou fora da partida
     private String publicKey;
-    private String privateKey;
+    private PrivateKey privateKey;
 
     private List<Player> players;
     private boolean isGenerator;
@@ -39,10 +40,33 @@ public class Player implements Comparable<Player> {
         this.fails = 0;
     }
 
-/*    public Player(String playerName, boolean isGenerator) {
+    public Player(String playerName, int playerID, String publicKey) {
         this.name = playerName;
-        this.isGenerator = isGenerator;
-    }*/
+        this.id = playerID;
+        this.moves = 0;
+        this.score = 0;
+        this.fails = 0;
+        this.publicKey = publicKey;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public void setPrivateKey(PrivateKey privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
 
     public String getName() {
         return name;
@@ -80,8 +104,7 @@ public class Player implements Comparable<Player> {
         return fails;
     }
 
-
-    /*public void handlerKeepAlive(App app, Message message) {
+    public void handlerKeepAlive(App app, Message message) {
         String playerName = message.getPlayer();
         boolean have = false;
         boolean haveGenerator = false;
@@ -91,47 +114,17 @@ public class Player implements Comparable<Player> {
 
             if (p.isGenerator)
                 haveGenerator = true;
-        }
-
-        if (!have)
-            players.add(new Player(playerName, message.getPlayerID()));
-
-        if (players.size() >= Game.MAXPLAYERS){
-            // Se não tiver gerador, então o primeiro da lista vira gerador
-            if (!haveGenerator){
-                Player player = players.get(0);
-                player.isGenerator = true;
-                app.request(new Message(player, Message.NEW_GEN_REQUEST, "X"));
-            }
-        }
-    }*/
-
-    public void handlerKeepAlive(App app, Message message) {
-        String playerName = message.getPlayer();
-        boolean have = false;
-        boolean haveGenerator = false;
-        //System.out.println("handlerKeepAlive" );
-        for (Player p : players) {
-            if (p.getName().equals(playerName))
-                have = true;
-
-            if (p.isGenerator){
-                //System.out.println("is" );
-
-                haveGenerator = true;
-            }
 
         }
 
         if (!have)
-            players.add(new Player(playerName, message.getPlayerID()));
+            players.add(new Player(playerName, message.getPlayerID(), publicKey));
 
         if (!haveGenerator) {
             if (players.size() >= Game.MAXPLAYERS) {
                 Collections.sort(players);
                 Player player = players.get(0);
-                app.request(new Message(player, Message.NEW_GEN_REQUEST, "X"));
-
+                app.request(new Message(player, Message.NEW_GEN_REQUEST, "X", privateKey));
             }
         }
     }
@@ -147,16 +140,14 @@ public class Player implements Comparable<Player> {
         }
     }
 
-    public void isNext(App app, Message message){
+    public void isNext(App app, Message message) {
         if (message.getBodyString().equals(name)) {
             app.ui().nextRound();
             app.ui().round();
         }
 
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Public Methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public List<Player> players() {
         return players;
     }

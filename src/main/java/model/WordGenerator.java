@@ -9,25 +9,18 @@ import java.util.List;
 /**
  * Created by Bruno on 12/09/2016.
  */
-public class WordGenerator extends Player{
+public class WordGenerator extends Player {
     private String finalWord;
     private String lastWord = "";
-    private String wrongs;
-    //private List<Player> players;
-    private String lastPlayer = null;
-    private double wordTime;
-    private double phraseTime;
-
     private char[] lastCharWord;
 
     public WordGenerator() {
         super.setName("generator");
     }
 
-    public WordGenerator(String playerName) {
-        super.setName(playerName);
-    }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void setFinalWord(String finalWord) {
         this.finalWord = finalWord;
     }
@@ -44,16 +37,34 @@ public class WordGenerator extends Player{
      * @param app
      */
     public void receiveChar(Message message, App app) {
-        System.out.println("recebeu o char");
         updateScore(app, message);
         mountWord(message.getBodyString());
         refreshGameInfo(app, message);
         countPlayerMoves(app, message.getPlayer(), false);
     }
 
-    private boolean checkWordComplete(App app){
+    public void receiveWord(Message message, App app) {
+        updateScore(app, message);
+        refreshGameInfo(app, message);
+        countPlayerMoves(app, message.getPlayer(), false);
+    }
+
+    public void receiveLeave(Message message, App app) {
+        refreshGameInfo(app, message);
+        countPlayerMoves(app, message.getPlayer(), true);
+    }
+
+    public void requestFirstPlayer(App app) {
+        String playerName = app.player().players().get(1).getName();
+        app.request(new Message(app.player(), Message.NEXT, playerName));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Private Methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private boolean checkWordComplete(App app) {
         boolean isComplete = false;
-        if (this.lastWord.equals(this.finalWord)){
+        if (this.lastWord.equals(this.finalWord)) {
             app.request(new Message(this, Message.GEN_WORD, "word"));
             isComplete = true;
         }
@@ -63,10 +74,6 @@ public class WordGenerator extends Player{
     private void updateScore(App app, Message messsage) {
         boolean correct = false;
         boolean isWord = false;
-        /*if (!this.lastWord.contains(messsage.getBodyString()))
-            if (this.finalWord.contains(messsage.getBodyString())) {
-                correct = true;
-            }*/
 
         if (this.finalWord.contains(messsage.getBodyString())) {
             if (messsage.getType().equals(Message.CHAR)) {
@@ -86,7 +93,7 @@ public class WordGenerator extends Player{
                     p.setScore(Game.SCORE_CHAR);
                 else
                     p.setFail();
-                if (isWord){
+                if (isWord) {
                     p.setScore(Game.SCORE_WORD);
                     this.lastWord = this.finalWord;
                 }
@@ -142,13 +149,6 @@ public class WordGenerator extends Player{
             int charPosition = this.finalWord.indexOf(c.charAt(0), fromIndex);
             this.lastCharWord[charPosition] = c.charAt(0);
             fromIndex = charPosition + 1;
-
-            //pontuar
-            /*for (Player p : players) {
-                if (p.getName().equals(lastPlayer))
-                    p.setScore();
-
-            }*/
         }
         this.lastWord = new String(this.lastCharWord);
     }
@@ -166,21 +166,4 @@ public class WordGenerator extends Player{
         if (players().size() == Game.MAXPLAYERS && lastPlayer == null)
             app.request(new Message(this, Message.NEXT, players().get(0).getName()));
     }*/
-
-    public void receiveWord(Message message, App app) {
-        updateScore(app, message);
-        refreshGameInfo(app, message);
-        countPlayerMoves(app, message.getPlayer(), false);
-    }
-
-
-    public void receiveLeave(Message message, App app) {
-        refreshGameInfo(app, message);
-        countPlayerMoves(app, message.getPlayer(), true);
-    }
-
-    public void requestFirstPlayer(App app){
-        String playerName = app.player().players().get(1).getName();
-        app.request(new Message(app.player(), Message.NEXT, playerName));
-    }
 }

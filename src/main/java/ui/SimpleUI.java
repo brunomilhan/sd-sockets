@@ -1,11 +1,8 @@
 package ui;
 
 import app.App;
-import connection.Multicast;
 import model.Message;
-import model.Move;
 import model.Player;
-import model.WordGenerator;
 
 import java.util.Scanner;
 
@@ -29,7 +26,7 @@ public class SimpleUI {
         line();
     }
 
-    public void registerWordGen(){
+    public void registerWordGen() {
         line();
         System.out.println("JOGO DA FORCA - GERADOR DE PALAVRAS");
         line();
@@ -57,7 +54,6 @@ public class SimpleUI {
                 System.out.println("Digite a letra: ");
                 s = in.next();
                 app.player().requestChar(app, s);
-                //app.request(new Message(app.player(), Message.CHAR, s));
                 break;
             case 2:
                 System.out.println("Digite a palavra: ");

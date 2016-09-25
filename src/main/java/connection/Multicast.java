@@ -22,18 +22,11 @@ public class Multicast {
 
     private Thread threadListener = null;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructors
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public Multicast() {
-        this.clientPort = DEFAULT_PORT;
-        initMulticast();
-    }
-
     public Multicast(int clientPort) {
         this.clientPort = clientPort;
         initMulticast();
     }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Private Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,161 +63,24 @@ public class Multicast {
         }
     }
 
-    /*public String request(Message message) {
-        DatagramPacket request = new DatagramPacket(message.getBody(), message.getLength(), groupAddr, clientPort);
-        try {
-            multicastSocket.send(request);
-            return "OK";
-        } catch (SocketException e) {
-            System.out.println("Socket request: " + e.getMessage());
-            return "SocketException";
-        } catch (IOException e) {
-            System.out.println("IO: " + e.getMessage());
-            return "IOException";
-        } finally {
-            if (multicastSocket != null)
-                multicastSocket.close();
-        }
-    }*/
-
-   /* public String response() {
-        Message message = new Message();
-        try {
-            while (true) {
-                DatagramPacket response = new DatagramPacket(message.getBody(), message.getLength());
-                multicastSocket.receive(response);
-                System.out.println("Received:" + new String(response.getData()));
-            }
-
-        } catch (SocketException e) {
-            System.out.println("Socket: " + e.getMessage());
-            return "SocketException";
-        } catch (IOException e) {
-            System.out.println("IO: " + e.getMessage());
-            return "IOException";
-        } finally {
-            if (multicastSocket != null)
-                multicastSocket.close();
-            return "OK";
-        }
-    }*/
-
-   /* public Message listen() {
-        final Message message = new Message();
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    System.out.println("teste");
-                    while (true) {
-                        DatagramPacket response = new DatagramPacket(message.getBody(), message.getLength());
-                        multicastSocket.receive(response);
-                        System.out.println("Received:" + new String(response.getData()));
-                        message.setBody(response.getData());
-
-                        //aqui é onde tenho que montar a mensagem novamente
-
-                        message.setResStatus("OK");
-                    }
-                } catch (SocketException e) {
-                    System.out.println("Socket: " + e.getMessage());
-                    message.setResStatus("SocketException");
-                } catch (IOException e) {
-                    System.out.println("IO: " + e.getMessage());
-                    message.setResStatus("IOException");
-                }
-            }
-        });
-        thread.run();
-        return message;
-    }
-
-    // com executors
-    //
-    public Message listen1() {
-        final Message message = new Message();
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        Future<String> futureResult = executor.submit(new Callable<String>() {
-            public String call() throws Exception {
-                try {
-                    System.out.println("teste");
-                    //while (true) {
-                        DatagramPacket response = new DatagramPacket(message.getBody(), message.getLength());
-                        multicastSocket.receive(response);
-                        System.out.println("Received:" + new String(response.getData()));
-                        message.setBody(response.getData());
-                        message.setResStatus("OK");
-                        return new String(response.getData());
-                    //}
-                } catch (SocketException e) {
-                    System.out.println("Socket: " + e.getMessage());
-                    message.setResStatus("SocketException");
-                } catch (IOException e) {
-                    System.out.println("IO: " + e.getMessage());
-                    message.setResStatus("IOException");
-                }
-                return null;
-            }
-        });
-
-        //Obtendo um resultado da execucão da Thread
-        try {
-            System.out.println("fubcibou> "+futureResult.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return message;
-    }*/
-
-    /*public void listenHandler(ResHandlerInterface resHandler) {
-        final ResHandlerInterface resHandlerInterface = resHandler;
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                Message message = new Message();
-                try {
-                    while (true) {
-                        DatagramPacket response = new DatagramPacket(message.getBody(), message.getLength());
-                        multicastSocket.receive(response);
-                        System.out.println("Received:" + new String(response.getData()));
-
-                        //aqui é onde tenho que montar a mensagem novamente
-                        Message message1 = new Message(response.getData());
-
-                        //message.setBody(response.getData());
-                        //message.setResStatus("OK");
-                        resHandlerInterface.handler(message1);
-                    }
-                } catch (SocketException e) {
-                    System.out.println("Socket: " + e.getMessage());
-                    message.setResStatus("SocketException");
-                } catch (IOException e) {
-                    System.out.println("IO: " + e.getMessage());
-                    message.setResStatus("IOException");
-                }
-            }
-        });
-        thread.run();
-    }*/
-
     public void listenHandler(ResHandlerInterface resHandler) {
         threadListener = new Thread(new Listen(resHandler));
         threadListener.start();
     }
 
-    public void changeListenerHandler(ResHandlerInterface handler){
+    public void changeListenerHandler(ResHandlerInterface handler) {
         threadListener.interrupt();
         threadListener = new Thread(new Listen(handler));
         threadListener.start();
     }
 
-    private class Listen implements Runnable{
+    private class Listen implements Runnable {
         ResHandlerInterface resHandlerInterface;
 
-        public Listen(ResHandlerInterface resHandler){
+        public Listen(ResHandlerInterface resHandler) {
             this.resHandlerInterface = resHandler;
         }
+
         public void run() {
             Message message = new Message();
             try {
@@ -234,9 +90,6 @@ public class Multicast {
                     //System.out.println("\n:::::::::::::: Received:" + new String(response.getData()) + " \n");
 
                     Message message1 = new Message(response.getData());
-
-                    //message.setBody(response.getData());
-                    //message.setResStatus("OK");
                     resHandlerInterface.handler(message1);
                 }
             } catch (SocketException e) {
@@ -246,23 +99,6 @@ public class Multicast {
                 System.out.println("IO: " + e.getMessage());
                 message.setResStatus("IOException");
             }
-        }
-    }
-
-
-    public String leaveGroup() {
-        try {
-            multicastSocket.leaveGroup(groupAddr);
-            return "OK";
-        } catch (SocketException e) {
-            System.out.println("leaveGroup Socket: " + e.getMessage());
-            return "SocketException";
-        } catch (IOException e) {
-            System.out.println("IO: " + e.getMessage());
-            return "IOException";
-        } finally {
-            if (multicastSocket != null)
-                multicastSocket.close();
         }
     }
 }

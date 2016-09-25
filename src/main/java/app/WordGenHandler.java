@@ -15,23 +15,22 @@ public class WordGenHandler implements ResHandlerInterface {
     }
 
     public void handler(Message message) {
-        System.out.println(message.getType() + " player "  + message.getPlayer());
-        if (message.getType().equals(Message.CHAR)){
+        if (message.getType().equals(Message.CHAR)) {
             app.generator().receiveChar(message, app);
         }
-        if (message.getType().equals(Message.WORD)){
+        if (message.getType().equals(Message.WORD)) {
             app.generator().receiveWord(message, app);
         }
-        if (message.getType().equals(Message.LEAVE)){
+        if (message.getType().equals(Message.LEAVE)) {
             app.generator().receiveLeave(message, app);
         }
         /*if (message.getType().equals(Message.KEEPALIVE)){
             app.generator().playerKeepAlive(app, message.getPlayer());
         }*/
-        if (message.getType().equals(Message.GAME_INFO)){
+        if (message.getType().equals(Message.GAME_INFO)) {
             System.out.println(message.getBodyString());
         }
-        if (message.getType().equals(Message.I_AM_GENERATOR)){
+        if (message.getType().equals(Message.I_AM_GENERATOR)) {
             app.player().updateGenerator(message);
         }
     }

@@ -14,7 +14,7 @@ public class Game {
 
     private List<Player> players;
 
-    public Game(){
+    public Game() {
         this.players = new ArrayList<Player>();
     }
 }
