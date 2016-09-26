@@ -109,7 +109,7 @@ public class Player implements Comparable<Player> {
         boolean have = false;
         boolean haveGenerator = false;
         for (Player p : players) {
-            System.out.println("player: " + p.getName() + " key: " + p.getPublicKey());
+            //System.out.println("player: " + p.getName() + " key: " + p.getPublicKey());
             if (p.getName().equals(playerName))
                 have = true;
 
