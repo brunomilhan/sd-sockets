@@ -104,6 +104,10 @@ public class Player implements Comparable<Player> {
         return fails;
     }
 
+    public boolean isGenerator() {
+        return isGenerator;
+    }
+
     public void handlerKeepAlive(App app, Message message) {
         String playerName = message.getPlayer();
         boolean have = false;
@@ -132,7 +136,7 @@ public class Player implements Comparable<Player> {
 
     public void checkNewGenerator(App app, Message message) {
         //System.out.println(app.player().getName() + " novo checkNewGenerator " + message.getPlayer());
-        if (message.getBodyString().equals(name)) {
+        if (message.getBodyString().equals(name) && !isGenerator) {
             isGenerator = true;
             app.setNewHandler();
             app.updatePlayerKeepAlive();

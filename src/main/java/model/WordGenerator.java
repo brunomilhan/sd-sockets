@@ -79,6 +79,7 @@ public class WordGenerator extends Player {
             if (messsage.getType().equals(Message.CHAR)) {
                 if (!this.lastWord.contains(messsage.getBodyString())) {
                     correct = true;
+                    // fazer, diz que ja tentou letra, request
                 }
             }
             if (messsage.getType().equals(Message.WORD)) {

@@ -88,8 +88,8 @@ public class App {
 
     public void setNewHandler() {
         wordGenerator = new WordGenerator();
-        handler = new WordGenHandler(this);
-        multicast.changeListenerHandler(handler);
+        //handler = new WordGenHandler(this);
+        //multicast.changeListenerHandler(handler);
     }
 
     public Player player() {
