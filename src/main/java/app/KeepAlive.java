@@ -49,7 +49,7 @@ public class KeepAlive {
         public TimerTaskKeepAlive(Multicast multicast, Player player) {
             this.player = player;
             this.multicast = multicast;
-            this.msg = new Message(player, Message.KEEPALIVE, this.player.getName());
+            this.msg = new Message(player, Message.KEEPALIVE, player.getPublicKey());
 
             multicast.request(msg);
 

@@ -109,6 +109,7 @@ public class Player implements Comparable<Player> {
         boolean have = false;
         boolean haveGenerator = false;
         for (Player p : players) {
+            System.out.println("player: " + p.getName() + " key: " + p.getPublicKey());
             if (p.getName().equals(playerName))
                 have = true;
 
@@ -118,24 +119,24 @@ public class Player implements Comparable<Player> {
         }
 
         if (!have)
-            players.add(new Player(playerName, message.getPlayerID(), publicKey));
+            players.add(new Player(playerName, message.getPlayerID(), message.getBodyString()));
 
         if (!haveGenerator) {
             if (players.size() >= Game.MAXPLAYERS) {
                 Collections.sort(players);
                 Player player = players.get(0);
-                app.request(new Message(player, Message.NEW_GEN_REQUEST, "X", privateKey));
+                app.request(new Message(this, Message.NEW_GEN_REQUEST, player.getName()));
             }
         }
     }
 
     public void checkNewGenerator(App app, Message message) {
         //System.out.println(app.player().getName() + " novo checkNewGenerator " + message.getPlayer());
-        if (message.getPlayer().equals(name)) {
+        if (message.getBodyString().equals(name)) {
             isGenerator = true;
             app.setNewHandler();
             app.updatePlayerKeepAlive();
-            app.request(new Message(this, Message.I_AM_GENERATOR, "X"));
+            app.request(new Message(this, Message.I_AM_GENERATOR, name));
             app.ui().registerWordGen();
         }
     }

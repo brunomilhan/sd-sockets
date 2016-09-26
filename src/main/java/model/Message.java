@@ -103,7 +103,7 @@ public class Message {
             e.printStackTrace();
         }
         String[] split = aux.split(";");
-        System.out.println("msg " + aux);
+        //System.out.println("msg " + aux);
         this.check = split[0].split(":=")[1];
         this.player = split[1].split(":=")[1];
         this.playerID = Integer.parseInt(split[2].split(":=")[1]);
@@ -119,7 +119,7 @@ public class Message {
     }
 
     public String getCheck() {
-        System.out.println("check enc " + check);
+        //System.out.println("check enc " + check);
         return check;
     }
 
