@@ -14,6 +14,7 @@ public class GenericHandler implements ResHandlerInterface {
     }
 
     public void handler(Message message) {
+        System.out.println(message.getType());
         boolean haveCheck = false;
         if (message.getType().equals(Message.KEEPALIVE)) {
             app.player().handlerKeepAlive(app, message);
@@ -21,23 +22,19 @@ public class GenericHandler implements ResHandlerInterface {
             haveCheck = true;
 
         if (haveCheck) {
-            System.out.println(message);
+
             if (CheckPubKey.check(app, message)) {
                 if (message.getType().equals(Message.NEW_GEN_REQUEST)) {
                     app.player().checkNewGenerator(app, message);
                 }
-                if (message.getType().equals(Message.I_AM_GENERATOR)) {
-                    app.player().updateGenerator(message);
-                }
-                if (message.getType().equals(Message.NEXT)) {
-                    app.player().isNext(app, message);
-                }
                 if (message.getType().equals(Message.GAME_INFO)) {
                     System.out.println(message.getBodyString());
                 }
-
+                if (message.getType().equals(Message.I_AM_GENERATOR)) {
+                    app.player().updateGenerator(message);
+                }
                 // WORDGENERATOR METHODS
-                if (app.player().isGenerator()){
+                if (app.player().isGenerator()) {
                     if (message.getType().equals(Message.CHAR)) {
                         app.generator().receiveChar(message, app);
                     }
@@ -47,14 +44,20 @@ public class GenericHandler implements ResHandlerInterface {
                     if (message.getType().equals(Message.LEAVE)) {
                         app.generator().receiveLeave(message, app);
                     }
-                    if (message.getType().equals(Message.GAME_INFO)) {
+                    /*if (message.getType().equals(Message.GAME_INFO)) {
                         System.out.println(message.getBodyString());
                     }
                     if (message.getType().equals(Message.I_AM_GENERATOR)) {
                         app.player().updateGenerator(message);
+                    }*/
+                    // PLAYER METHODS
+                } else {
+                    if (message.getType().equals(Message.NEXT)) {
+                        app.player().isNext(app, message);
                     }
                 }
             }
         }
     }
 }
+

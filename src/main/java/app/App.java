@@ -8,6 +8,7 @@ import model.Message;
 import model.Player;
 import model.WordGenerator;
 import ui.SimpleUI;
+import ui.UIThread;
 import util.KeyPairGen;
 
 
@@ -34,11 +35,11 @@ public class App {
     KeyPairGen keyPairGen;
 
     public App() {
-
         this.player = new Player();
         //this.game = new Game();
         genAndGetKey();
-        this.ui = new SimpleUI(this);
+        ui = new SimpleUI(this);
+
         this.handler = new GenericHandler(this);
     }
 

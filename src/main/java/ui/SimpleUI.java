@@ -27,45 +27,67 @@ public class SimpleUI {
     }
 
     public void registerWordGen() {
-        line();
-        System.out.println("JOGO DA FORCA - GERADOR DE PALAVRAS");
-        line();
-        System.out.println("Digite a palavra: ");
-        app.generator().setFinalWord(in.next());
-        System.out.println("Aguardando jogadores...");
-        app.generator().requestFirstPlayer(app);
-        line();
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                line();
+                System.out.println("JOGO DA FORCA - GERADOR DE PALAVRAS");
+                line();
+                System.out.println("Digite a palavra: ");
+                app.generator().setFinalWord(in.next());
+                System.out.println("Aguardando jogadores...");
+                app.generator().requestFirstPlayer(app);
+                line();
+
+                try {
+                    finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     public void round() {
-        int option;
-        line();
-        System.out.println("Nova rodada");
-        System.out.println(" Opções disponiveis:\n" +
-                "  1 - Chutar Letra\n" +
-                "  2 - Chutar palavra\n" +
-                "  3 - Desistir\n"
-        );
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                int option;
+                line();
+                System.out.println("Nova rodada");
+                System.out.println(" Opções disponiveis:\n" +
+                        "  1 - Chutar Letra\n" +
+                        "  2 - Chutar palavra\n" +
+                        "  3 - Desistir\n"
+                );
 
-        option = in.nextInt();
-        String s = "";
-        switch (option) {
-            case 1:
-                System.out.println("Digite a letra: ");
-                s = in.next();
-                app.player().requestChar(app, s);
-                break;
-            case 2:
-                System.out.println("Digite a palavra: ");
-                s = in.next();
-                app.request(new Message(app.player(), Message.WORD, s));
-                break;
-            case 3:
-                System.out.println("Você desistiu dessa rodada");
-                app.request(new Message(app.player(), Message.LEAVE, app.player().getName()));
-                break;
-        }
-        line();
+                option = in.nextInt();
+                String s = "";
+                switch (option) {
+                    case 1:
+                        System.out.println("Digite a letra: ");
+                        s = in.next();
+                        app.player().requestChar(app, s);
+                        break;
+                    case 2:
+                        System.out.println("Digite a palavra: ");
+                        s = in.next();
+                        app.request(new Message(app.player(), Message.WORD, s));
+                        break;
+                    case 3:
+                        System.out.println("Você desistiu dessa rodada");
+                        app.request(new Message(app.player(), Message.LEAVE, app.player().getName()));
+                        break;
+                }
+                line();
+                try {
+                    finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
     public static void line() {

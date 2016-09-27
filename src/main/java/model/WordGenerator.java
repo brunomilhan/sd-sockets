@@ -57,6 +57,7 @@ public class WordGenerator extends Player {
     public void requestFirstPlayer(App app) {
         String playerName = app.player().players().get(1).getName();
         app.request(new Message(app.player(), Message.NEXT, playerName));
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
