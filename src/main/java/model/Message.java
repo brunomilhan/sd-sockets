@@ -173,4 +173,6 @@ public class Message {
     public static final String NEW_GEN_REQUEST = "NEW_GEN_REQUEST";
     public static final String I_AM_GENERATOR = "I_AM_GENERATOR";
     public static final String CHECK = "HANSZIMMER";
+    public static final String EXPIRE_TIME_1 = "EXPIRE_TIME_1";
+    public static final String EXPIRE_TIME_2 = "EXPIRE_TIME_2";
 }

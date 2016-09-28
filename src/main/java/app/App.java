@@ -1,14 +1,11 @@
 package app;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import connection.Multicast;
 import connection.ResHandlerInterface;
-import model.Game;
 import model.Message;
 import model.Player;
 import model.WordGenerator;
 import ui.SimpleUI;
-import ui.UIThread;
 import util.KeyPairGen;
 
 

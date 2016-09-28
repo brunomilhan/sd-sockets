@@ -22,6 +22,7 @@ public class KeepAlive {
 
     public void updatePlayer(Player player) {
         this.player = player;
+        timer.cancel();
         this.timer.purge();
         timerTaskKeepAlive();
     }

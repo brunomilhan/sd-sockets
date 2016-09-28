@@ -104,6 +104,17 @@ public class Player implements Comparable<Player> {
         return fails;
     }
 
+    public void setMatchesFails(int matchesFails) {
+        if (matchesFails == 1)
+            this.matchesFails += matchesFails;
+        else
+            this.matchesFails = 0;
+    }
+
+    public int getMatchesFails() {
+        return matchesFails;
+    }
+
     public boolean isGenerator() {
         return isGenerator;
     }
@@ -147,6 +158,9 @@ public class Player implements Comparable<Player> {
 
     public void isNext(App app, Message message) {
         if (message.getBodyString().equals(name)) {
+            System.out.println("proximo denovo");
+            if (app.ui().isRunning())
+                app.ui().cancelInputThread();
             app.ui().nextRound();
             app.ui().round();
         }
@@ -180,6 +194,14 @@ public class Player implements Comparable<Player> {
 
     public void requestChar(App app, String s) {
         app.request(new Message(this, Message.CHAR, s));
+    }
+
+    public void timedOut(App app, Message message) {
+        if (app.player().getName().equals(message.getBodyString())) {
+            System.out.println("TIMED OUTTT");
+            app.ui().cancelInputThread();
+        }
+
     }
 }
 

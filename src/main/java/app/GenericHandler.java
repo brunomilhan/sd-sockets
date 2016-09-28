@@ -14,7 +14,6 @@ public class GenericHandler implements ResHandlerInterface {
     }
 
     public void handler(Message message) {
-        System.out.println(message.getType());
         boolean haveCheck = false;
         if (message.getType().equals(Message.KEEPALIVE)) {
             app.player().handlerKeepAlive(app, message);
@@ -24,25 +23,33 @@ public class GenericHandler implements ResHandlerInterface {
         if (haveCheck) {
 
             if (CheckPubKey.check(app, message)) {
-                if (message.getType().equals(Message.NEW_GEN_REQUEST)) {
+                System.out.println(message.getType()  + "pl: " + message.getBodyString() );
+                String type = message.getType();
+                if (type.equals(Message.NEW_GEN_REQUEST)) {
                     app.player().checkNewGenerator(app, message);
                 }
-                if (message.getType().equals(Message.GAME_INFO)) {
+                if (type.equals(Message.GAME_INFO)) {
                     System.out.println(message.getBodyString());
                 }
-                if (message.getType().equals(Message.I_AM_GENERATOR)) {
+                if (type.equals(Message.I_AM_GENERATOR)) {
                     app.player().updateGenerator(message);
                 }
+               /* if (type.equals(Message.EXPIRE_TIME_1)){
+                    app.player().timedOut(app, message);
+                }*/
                 // WORDGENERATOR METHODS
                 if (app.player().isGenerator()) {
-                    if (message.getType().equals(Message.CHAR)) {
+                    if (type.equals(Message.CHAR)) {
                         app.generator().receiveChar(message, app);
                     }
-                    if (message.getType().equals(Message.WORD)) {
+                    if (type.equals(Message.WORD)) {
                         app.generator().receiveWord(message, app);
                     }
-                    if (message.getType().equals(Message.LEAVE)) {
+                    if (type.equals(Message.LEAVE)) {
                         app.generator().receiveLeave(message, app);
+                    }
+                    if (type.equals(Message.EXPIRE_TIME_1)) {
+                        app.generator().countMatchesFails(message, app);
                     }
                     /*if (message.getType().equals(Message.GAME_INFO)) {
                         System.out.println(message.getBodyString());

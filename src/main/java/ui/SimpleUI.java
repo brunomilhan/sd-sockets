@@ -12,9 +12,12 @@ import java.util.Scanner;
 public class SimpleUI {
     private App app;
     private Scanner in = new Scanner(System.in);
+    private Thread thread;
+    private boolean isRunning;
 
     public SimpleUI(App app) {
         this.app = app;
+        this.isRunning = false;
     }
 
     public void registerPlayer(Player player) {
@@ -27,7 +30,8 @@ public class SimpleUI {
     }
 
     public void registerWordGen() {
-        Thread thread = new Thread(new Runnable() {
+        isRunning = true;
+        thread = new Thread(new Runnable() {
             public void run() {
                 line();
                 System.out.println("JOGO DA FORCA - GERADOR DE PALAVRAS");
@@ -37,6 +41,7 @@ public class SimpleUI {
                 System.out.println("Aguardando jogadores...");
                 app.generator().requestFirstPlayer(app);
                 line();
+                isRunning = false;
 
                 try {
                     finalize();
@@ -50,7 +55,8 @@ public class SimpleUI {
     }
 
     public void round() {
-        Thread thread = new Thread(new Runnable() {
+        isRunning = true;
+        thread = new Thread(new Runnable() {
             public void run() {
                 int option;
                 line();
@@ -61,33 +67,44 @@ public class SimpleUI {
                         "  3 - Desistir\n"
                 );
 
-                option = in.nextInt();
-                String s = "";
-                switch (option) {
-                    case 1:
-                        System.out.println("Digite a letra: ");
-                        s = in.next();
-                        app.player().requestChar(app, s);
-                        break;
-                    case 2:
-                        System.out.println("Digite a palavra: ");
-                        s = in.next();
-                        app.request(new Message(app.player(), Message.WORD, s));
-                        break;
-                    case 3:
-                        System.out.println("Você desistiu dessa rodada");
-                        app.request(new Message(app.player(), Message.LEAVE, app.player().getName()));
-                        break;
+                try {
+                    option = in.nextInt();
+                    String s = "";
+                    switch (option) {
+                        case 1:
+                            System.out.println("Digite a letra: ");
+                            s = in.next();
+                            app.player().requestChar(app, s);
+                            break;
+                        case 2:
+                            System.out.println("Digite a palavra: ");
+                            s = in.next();
+                            app.request(new Message(app.player(), Message.WORD, s));
+                            break;
+                        case 3:
+                            System.out.println("Você desistiu dessa rodada");
+                            app.request(new Message(app.player(), Message.LEAVE, app.player().getName()));
+                            break;
+                    }
+                    line();
+                    isRunning = false;
+                } catch (Exception e) {
+                    System.out.println("deu erro ao finalizar");
+
                 }
-                line();
                 try {
                     finalize();
                 } catch (Throwable throwable) {
+
                     throwable.printStackTrace();
                 }
             }
         });
         thread.start();
+    }
+
+    public void cancelInputThread() {
+        thread.interrupt();
     }
 
     public static void line() {
@@ -98,5 +115,9 @@ public class SimpleUI {
         line();
         System.out.println("Jogada Disponivel!!!");
         line();
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 }
