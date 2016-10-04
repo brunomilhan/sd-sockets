@@ -1,8 +1,7 @@
 package model;
 
 import app.App;
-
-import java.util.*;
+import generator.GeneratorRound;
 
 /**
  * Created by Bruno on 12/09/2016.
@@ -12,18 +11,10 @@ public class WordGenerator extends Player {
     private String lastWord = "";
     private char[] lastCharWord;
 
-    Timer timer1 = new Timer();
-    Timer timer2 = new Timer();
-    DeltaTimerTask dt1;
-    DeltaTimerTask dt2;
-    DeltaTimerTask dt1Aux;
-    DeltaTimerTask dt2Aux;
-
-
-    boolean isCanceledTimer = false;
+    private GeneratorRound round;
 
     public WordGenerator() {
-        super.setName("generator");
+        round = new GeneratorRound();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +36,7 @@ public class WordGenerator extends Player {
      * @param app
      */
     public void receiveChar(Message message, App app) {
-        purgeTimers();
+        round.purgeTimers();
         updateScore(app, message);
         mountWord(message.getBodyString());
         refreshGameInfo(app, message);
@@ -53,32 +44,36 @@ public class WordGenerator extends Player {
     }
 
     public void receiveWord(Message message, App app) {
-        purgeTimers();
+        round.purgeTimers();
         updateScore(app, message);
         refreshGameInfo(app, message);
         countPlayerMoves(app, message.getPlayer(), false, false);
     }
 
     public void receiveLeave(Message message, App app) {
-        purgeTimers();
+        round.purgeTimers();
         refreshGameInfo(app, message);
         countPlayerMoves(app, message.getPlayer(), true, false);
-        purgeTimers();
+        round.purgeTimers();
     }
 
     public void requestFirstPlayer(App app) {
         String playerName = app.player().players().get(1).getName();
         app.request(new Message(app.player(), Message.NEXT, playerName));
-        setMovesTimer(app, playerName);
+        round.setMovesTimer(app, playerName);
     }
 
-    public void countMatchesFails(Message message, App app){
-        System.out.println("countMatchesFails");
-        for (Player p : app.player().players()){
-            if (p.getName().equals(message.getBodyString())){
+    public void countMatchesFails(Message message, App app) {
+        for (Player p : app.player().players()) {
+            if (p.getName().equals(message.getBodyString())) {
                 p.setMatchesFails(1);
                 if (p.getMatchesFails() <= 3)
                     countPlayerMoves(app, p.getName(), false, true);
+                else {
+                    countPlayerMoves(app, p.getName(), false, false);
+                    System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
+                            "seguidas e foi desconectado");
+                }
             }
         }
     }
@@ -86,47 +81,6 @@ public class WordGenerator extends Player {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Private Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void setMovesTimer(App app, String playerName){
-
-        //count desistidas
-        System.out.println("setMovesTimer");
-         dt1 = new DeltaTimerTask(app, new Message(app.player(), Message.EXPIRE_TIME_1, playerName));
-         dt2 = new DeltaTimerTask(app, new Message(app.player(), Message.EXPIRE_TIME_2, playerName));
-
-        //timer2 = new Timer();
-        //if (dt1.)
-
-        timer1.schedule(dt1, Game.DELTA_TIME_1);
-        timer1.schedule(dt2, Game.DELTA_TIME_2);
-    }
-
-    private void purgeTimers(){
-        System.out.println("cancelou tt");
-        isCanceledTimer = true;
-        //dt1.cancel();
-        //dt2.cancel();
-    }
-
-    private class DeltaTimerTask extends TimerTask{
-        private App app;
-        private Message message;
-
-        public DeltaTimerTask(App app, Message message){
-            this.app = app;
-            this.message = message;
-        }
-
-        public void run() {
-            if (!isCanceledTimer) {
-                System.out.println("cancelou dentro tt");
-                app.request(message);
-            } else {
-                System.out.println("nao cancelou dentro tt");
-            }
-            isCanceledTimer = false;
-        }
-    }
-
     private boolean checkWordComplete(App app) {
         boolean isComplete = false;
         if (this.lastWord.equals(this.finalWord)) {
@@ -171,9 +125,10 @@ public class WordGenerator extends Player {
     /**
      * Método gerencia a quantidade de jogadas (efetuadas e expiradas),
      * chamando o proximo player ou não.
+     *
      * @param app
      * @param playerName
-     * @param isLeave Se o player enviar a requisição para desistir da rodada
+     * @param isLeave    Se o player enviar a requisição para desistir da rodada
      */
     private void countPlayerMoves(App app, String playerName, boolean isLeave, boolean isTimedOut) {
         for (Player p : app.player().players()) {
@@ -183,13 +138,13 @@ public class WordGenerator extends Player {
                 if (p.getMoves() < Game.MOVES_LIMIT && !isLeave) {
                     p.setMoves();
                     app.request(new Message(app.player(), Message.NEXT, p.getName()));
-                    setMovesTimer(app, p.getName());
+                    round.setMovesTimer(app, p.getName());
                 } else {
                     p.resetMoves();
                     for (Player p2 : app.player().players()) {
                         if (!p2.getName().equals(playerName) && !p2.isGenerator()) {
                             app.request(new Message(app.player(), Message.NEXT, p2.getName()));
-                            setMovesTimer(app, p2.getName());
+                            round.setMovesTimer(app, p2.getName());
                         }
                     }
                 }
@@ -229,18 +184,4 @@ public class WordGenerator extends Player {
         }
         this.lastWord = new String(this.lastCharWord);
     }
-
-    //Verificar connexão dos players
-    /*public void playerKeepAlive(App app, String playerName) {
-        boolean have = false;
-        for (Player p : players()) {
-            if (p.getName().equals(playerName))
-                have = true;
-        }
-        if (!have)
-            if (players().size() < Game.MAXPLAYERS)
-                players().add(new Player(playerName));
-        if (players().size() == Game.MAXPLAYERS && lastPlayer == null)
-            app.request(new Message(this, Message.NEXT, players().get(0).getName()));
-    }*/
 }

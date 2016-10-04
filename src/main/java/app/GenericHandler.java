@@ -34,7 +34,7 @@ public class GenericHandler implements ResHandlerInterface {
                 if (type.equals(Message.I_AM_GENERATOR)) {
                     app.player().updateGenerator(message);
                 }
-               /* if (type.equals(Message.EXPIRE_TIME_1)){
+               /*if (type.equals(Message.EXPIRE_TIME_2)){
                     app.player().timedOut(app, message);
                 }*/
                 // WORDGENERATOR METHODS
@@ -48,7 +48,7 @@ public class GenericHandler implements ResHandlerInterface {
                     if (type.equals(Message.LEAVE)) {
                         app.generator().receiveLeave(message, app);
                     }
-                    if (type.equals(Message.EXPIRE_TIME_1)) {
+                    if (type.equals(Message.EXPIRE_TIME_2)) {
                         app.generator().countMatchesFails(message, app);
                     }
                     /*if (message.getType().equals(Message.GAME_INFO)) {

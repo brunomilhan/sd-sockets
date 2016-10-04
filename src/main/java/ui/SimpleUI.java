@@ -3,6 +3,7 @@ package ui;
 import app.App;
 import model.Message;
 import model.Player;
+import model.PlayerRound;
 
 import java.util.Scanner;
 
@@ -54,9 +55,14 @@ public class SimpleUI {
         thread.start();
     }
 
-    public void round() {
+    public void round(PlayerRound playerRound) {
         isRunning = true;
-        thread = new Thread(new Runnable() {
+        class Round implements Runnable{
+            PlayerRound playerRound;
+            Round(PlayerRound playerRound){
+                this.playerRound = playerRound;
+            }
+
             public void run() {
                 int option;
                 line();
@@ -87,6 +93,7 @@ public class SimpleUI {
                             break;
                     }
                     line();
+                    playerRound.cancel();
                     isRunning = false;
                 } catch (Exception e) {
                     System.out.println("deu erro ao finalizar");
@@ -99,13 +106,28 @@ public class SimpleUI {
                     throwable.printStackTrace();
                 }
             }
-        });
+        }
+
+
+        thread = new Thread(new Round(playerRound));
+
         thread.start();
     }
 
     public void cancelInputThread() {
         thread.interrupt();
     }
+
+    public void timedOutChar(){
+        System.out.println("Timeout - Opção 1 não está disponivel, apenas 2!");
+    }
+
+    public void timedOutWord(){
+        System.out.println("Timeout - Você perdeu essa rodada!");
+        thread.interrupt();
+    }
+
+
 
     public static void line() {
         System.out.println("=====================================");

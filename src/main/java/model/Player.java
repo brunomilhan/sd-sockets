@@ -24,6 +24,8 @@ public class Player implements Comparable<Player> {
     private List<Player> players;
     private boolean isGenerator;
 
+    private PlayerRound playerRound;
+
     public Player() {
         this.id = (int) ((System.currentTimeMillis() % Integer.MAX_VALUE) % 100000);
         this.players = new ArrayList<Player>();
@@ -158,11 +160,12 @@ public class Player implements Comparable<Player> {
 
     public void isNext(App app, Message message) {
         if (message.getBodyString().equals(name)) {
-            System.out.println("proximo denovo");
-            if (app.ui().isRunning())
-                app.ui().cancelInputThread();
-            app.ui().nextRound();
-            app.ui().round();
+            //System.out.println("proximo denovo");
+            //if (app.ui().isRunning())
+            //    app.ui().cancelInputThread();
+            //app.ui().nextRound();
+            //app.ui().round();
+            playerRound = new PlayerRound(app.ui());
         }
 
     }
@@ -198,7 +201,7 @@ public class Player implements Comparable<Player> {
 
     public void timedOut(App app, Message message) {
         if (app.player().getName().equals(message.getBodyString())) {
-            System.out.println("TIMED OUTTT");
+            //System.out.println("TIMED OUTTT");
             app.ui().cancelInputThread();
         }
 
