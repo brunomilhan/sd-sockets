@@ -206,6 +206,20 @@ public class Player implements Comparable<Player> {
         }
 
     }
+
+    /**
+     * Quando um player é desconectado da partida esse método remove ele da lista de players conectados
+     * @param message
+     */
+    public void playerLeave(Message message) {
+        for (Player p : players) {
+            if (p.getName().equals(message.getBodyString())) {
+                players.remove(p);
+                System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
+                        "seguidas e foi desconectado");
+            }
+        }
+    }
 }
 
 

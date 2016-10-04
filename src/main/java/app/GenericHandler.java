@@ -37,6 +37,9 @@ public class GenericHandler implements ResHandlerInterface {
                /*if (type.equals(Message.EXPIRE_TIME_2)){
                     app.player().timedOut(app, message);
                 }*/
+                if (type.equals(Message.PLAYER_LEAVE)) {
+                    app.player().playerLeave(message);
+                }
                 // WORDGENERATOR METHODS
                 if (app.player().isGenerator()) {
                     if (type.equals(Message.CHAR)) {

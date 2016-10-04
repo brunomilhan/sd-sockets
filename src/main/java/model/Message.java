@@ -175,4 +175,5 @@ public class Message {
     public static final String CHECK = "HANSZIMMER";
     public static final String EXPIRE_TIME_1 = "EXPIRE_TIME_1";
     public static final String EXPIRE_TIME_2 = "EXPIRE_TIME_2";
+    public static final String PLAYER_LEAVE = "PLAYER_LEAVE";
 }

@@ -73,6 +73,7 @@ public class WordGenerator extends Player {
                     countPlayerMoves(app, p.getName(), false, false);
                     System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
                             "seguidas e foi desconectado");
+                    app.request(new Message(app.player(), Message.PLAYER_LEAVE, p.getName()));
                 }
             }
         }
