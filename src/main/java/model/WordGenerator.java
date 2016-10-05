@@ -39,15 +39,15 @@ public class WordGenerator extends Player {
         round.purgeTimers();
         updateScore(app, message);
         mountWord(message.getBodyString());
-        refreshGameInfo(app, message);
-        countPlayerMoves(app, message.getPlayer(), false, false);
+        if (!refreshGameInfo(app, message))
+            countPlayerMoves(app, message.getPlayer(), false, false);
     }
 
     public void receiveWord(Message message, App app) {
         round.purgeTimers();
         updateScore(app, message);
-        refreshGameInfo(app, message);
-        countPlayerMoves(app, message.getPlayer(), false, false);
+        if (!refreshGameInfo(app, message))
+            countPlayerMoves(app, message.getPlayer(), false, false);
     }
 
     public void receiveLeave(Message message, App app) {
@@ -58,9 +58,10 @@ public class WordGenerator extends Player {
     }
 
     public void requestFirstPlayer(App app) {
-        String playerName = app.player().players().get(1).getName();
+        /*String playerName = app.player().players().get(1).getName();
         app.request(new Message(app.player(), Message.NEXT, playerName));
-        round.setMovesTimer(app, playerName);
+        round.setMovesTimer(app, playerName);*/
+        countPlayerMoves(app, app.player().getName(), false, false);
     }
 
     public void countMatchesFails(Message message, App app) {
@@ -82,11 +83,25 @@ public class WordGenerator extends Player {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private boolean checkWordComplete(App app) {
         boolean isComplete = false;
-        if (this.lastWord.equals(this.finalWord)) {
-            app.request(new Message(app.player(), Message.GEN_WORD, "word"));
+        if (lastWord.equals(finalWord)) {
+            //app.request(new Message(app.player(), Message.GEN_WORD, "word"));
+
             isComplete = true;
         }
         return isComplete;
+    }
+
+    private void requestNewGenerator(App app){
+        app.player().setGenerator(false);
+        app.player().setWasGen(true);
+        app.updatePlayerKeepAlive();
+        for (Player p : app.player().players()){
+            if (!p.getName().equals(app.player().getName()) && !p.isWasGen()) {
+                app.request(new Message(app.player(), Message.NEW_GEN_REQUEST, p.getName()));
+                break;
+            }
+        }
+
     }
 
     private void updateScore(App app, Message messsage) {
@@ -134,16 +149,18 @@ public class WordGenerator extends Player {
             if (p.getName().equals(playerName)) {
                 if (!isTimedOut)
                     p.setMatchesFails(0);
-                if (p.getMoves() < Game.MOVES_LIMIT && !isLeave) {
+                if (p.getMoves() < Game.MOVES_LIMIT && !isLeave && !p.isGenerator()) {
                     p.setMoves();
                     app.request(new Message(app.player(), Message.NEXT, p.getName()));
                     round.setMovesTimer(app, p.getName());
+                    break;
                 } else {
                     p.resetMoves();
                     for (Player p2 : app.player().players()) {
                         if (!p2.getName().equals(playerName) && !p2.isGenerator()) {
                             app.request(new Message(app.player(), Message.NEXT, p2.getName()));
                             round.setMovesTimer(app, p2.getName());
+                            break;
                         }
                     }
                 }
@@ -151,10 +168,11 @@ public class WordGenerator extends Player {
         }
     }
 
-    private void refreshGameInfo(App app, Message message) {
+    private boolean refreshGameInfo(App app, Message message) {
         String scoreBoard = "";
         String complete = "";
-        if (checkWordComplete(app))
+        boolean finish = checkWordComplete(app);
+        if (finish)
             complete = "\n Palavra Completa!!! - Vencedor: " + message.getPlayer();
 
         for (Player p : app.player().players())
@@ -166,6 +184,11 @@ public class WordGenerator extends Player {
                 "Placar: \n" + scoreBoard;
 
         app.request(new Message(app.player(), Message.GAME_INFO, gameInfo));
+
+        if (finish)
+            requestNewGenerator(app);
+
+        return finish;
     }
 
     private void mountWord(String c) {

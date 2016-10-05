@@ -23,6 +23,7 @@ public class Player implements Comparable<Player> {
 
     private List<Player> players;
     private boolean isGenerator;
+    private boolean wasGen;
 
     private PlayerRound playerRound;
 
@@ -121,6 +122,18 @@ public class Player implements Comparable<Player> {
         return isGenerator;
     }
 
+    public void setGenerator(boolean generator) {
+        isGenerator = generator;
+    }
+
+    public boolean isWasGen() {
+        return wasGen;
+    }
+
+    public void setWasGen(boolean wasGen) {
+        this.wasGen = wasGen;
+    }
+
     public void handlerKeepAlive(App app, Message message) {
         String playerName = message.getPlayer();
         boolean have = false;
@@ -189,8 +202,13 @@ public class Player implements Comparable<Player> {
     public void updateGenerator(Message message) {
         String playerName = message.getPlayer();
         for (Player p : players) {
+            if (p.isGenerator()){
+                p.setGenerator(false);
+                p.setWasGen(true);
+            }
             if (p.getName().equals(playerName)) {
-                p.isGenerator = true;
+                p.setGenerator(true);
+                p.setWasGen(false);
             }
         }
     }

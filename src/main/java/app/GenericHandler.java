@@ -31,13 +31,16 @@ public class GenericHandler implements ResHandlerInterface {
                 if (type.equals(Message.GAME_INFO)) {
                     System.out.println(message.getBodyString());
                 }
+                /*if (type.equals(Message.I_AM_GENERATOR)) {
+                    app.player().updateGenerator(message);
+                }*/
                 if (type.equals(Message.I_AM_GENERATOR)) {
                     app.player().updateGenerator(message);
                 }
                /*if (type.equals(Message.EXPIRE_TIME_2)){
                     app.player().timedOut(app, message);
                 }*/
-                if (type.equals(Message.PLAYER_LEAVE)) {
+                if (type.equals(Message.GEN_WORD)) {
                     app.player().playerLeave(message);
                 }
                 // WORDGENERATOR METHODS
