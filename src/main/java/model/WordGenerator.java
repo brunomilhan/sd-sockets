@@ -67,12 +67,10 @@ public class WordGenerator extends Player {
         for (Player p : app.player().players()) {
             if (p.getName().equals(message.getBodyString())) {
                 p.setMatchesFails(1);
-                if (p.getMatchesFails() <= 3)
+                if (p.getMatchesFails() <= 2)
                     countPlayerMoves(app, p.getName(), false, true);
                 else {
-                    countPlayerMoves(app, p.getName(), false, false);
-                    System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
-                            "seguidas e foi desconectado");
+                    //countPlayerMoves(app, p.getName(), false, false);
                     app.request(new Message(app.player(), Message.PLAYER_LEAVE, p.getName()));
                 }
             }

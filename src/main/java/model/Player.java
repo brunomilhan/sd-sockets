@@ -34,13 +34,13 @@ public class Player implements Comparable<Player> {
         this.fails = 0;
     }
 
-    public Player(String playerName, int id) {
+   /* public Player(String playerName, int id) {
         this.name = playerName;
         this.id = id;
         this.moves = 0;
         this.score = 0;
         this.fails = 0;
-    }
+    }*/
 
     public Player(String playerName, int playerID, String publicKey) {
         this.name = playerName;
@@ -199,26 +199,30 @@ public class Player implements Comparable<Player> {
         app.request(new Message(this, Message.CHAR, s));
     }
 
-    public void timedOut(App app, Message message) {
+    /*public void timedOut(App app, Message message) {
         if (app.player().getName().equals(message.getBodyString())) {
             //System.out.println("TIMED OUTTT");
             app.ui().cancelInputThread();
         }
 
-    }
+    }*/
 
     /**
      * Quando um player é desconectado da partida esse método remove ele da lista de players conectados
      * @param message
      */
     public void playerLeave(Message message) {
+        Player player2Remove = null;
         for (Player p : players) {
             if (p.getName().equals(message.getBodyString())) {
-                players.remove(p);
+                player2Remove = p;
                 System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
                         "seguidas e foi desconectado");
-            }
+            } else if(!p.isGenerator())
+                System.out.println("O jogador: " + p.getName() + " venceu a rodada por desistência do " +
+                        "adversário.");
         }
+        players.remove(player2Remove);
     }
 }
 
