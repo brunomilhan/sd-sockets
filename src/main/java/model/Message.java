@@ -6,6 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
 
 /**
+ * Classe que encapsula as mensagens enviadas por multicast
+ * Quando a mensagem é enviada o objeto é transoformado em string
+ * E quando é recebido a string é transformada nesse objeto
  * Created by Bruno on 07/09/2016.
  */
 public class Message {

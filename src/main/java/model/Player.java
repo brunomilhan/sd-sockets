@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Modelo e regras de negócio de um jogador
  * Created by Bruno on 12/09/2016.
  */
 public class Player implements Comparable<Player> {
@@ -35,14 +36,6 @@ public class Player implements Comparable<Player> {
         this.fails = 0;
     }
 
-   /* public Player(String playerName, int id) {
-        this.name = playerName;
-        this.id = id;
-        this.moves = 0;
-        this.score = 0;
-        this.fails = 0;
-    }*/
-
     public Player(String playerName, int playerID, String publicKey) {
         this.name = playerName;
         this.id = playerID;
@@ -55,6 +48,128 @@ public class Player implements Comparable<Player> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Manipula as mensagens de keepalive recebidas é chamado no handler que é chamado pelo multicast
+     * @param app
+     * @param message
+     */
+    public void handlerKeepAlive(App app, Message message) {
+        String playerName = message.getPlayer();
+        boolean have = false;
+        boolean haveGenerator = false;
+
+        // verifica se existe na lista de conhecidos e se é gerador
+        for (Player p : players) {
+            if (p.getName().equals(playerName))
+                have = true;
+
+            if (p.isGenerator)
+                haveGenerator = true;
+
+        }
+
+        // se não existe adiciona
+        if (!have)
+            players.add(new Player(playerName, message.getPlayerID(), message.getBodyString()));
+
+        // se não tiver gerador e todos os players estiverem conectados é eviado uma requisição de novo gerador
+        if (!haveGenerator) {
+            if (players.size() >= Game.MAXPLAYERS) {
+                Collections.sort(players);
+                Player player = players.get(0);
+                app.request(new Message(this, Message.NEW_GEN_REQUEST, player.getName()));
+            }
+        }
+    }
+
+    /**
+     * Quando uma mensagem de novo gerador é recebida ele verefica se é este jogador, se for
+     * ele se elege gerador e informa a todos outros jogadores que agora é o gerador
+     * @param app
+     * @param message
+     */
+    public void checkNewGenerator(App app, Message message) {
+        //System.out.println(app.player().getName() + " novo checkNewGenerator " + message.getPlayer());
+        if (message.getBodyString().equals(name) && !isGenerator) {
+            isGenerator = true;
+            app.setNewGenerator();
+            app.updatePlayerKeepAlive();
+            app.request(new Message(this, Message.I_AM_GENERATOR, name));
+            app.ui().registerWordGen();
+        }
+    }
+
+    /**
+     * chama uma proxima rodada
+     * @param app
+     * @param message
+     */
+    public void isNext(App app, Message message) {
+        if (message.getBodyString().equals(name)) {
+
+            playerRound = new PlayerRound(app.ui());
+        }
+
+    }
+
+    public List<Player> players() {
+        return players;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int compareTo(Player p) {
+        if (this.id > p.getId())
+            return 1;
+        if (this.id < p.getId())
+            return -1;
+        return 0;
+    }
+
+    /**
+     * quando um novo gerador é eleito ele envia uma mensagem informando todos os jogadores
+     * e os jogadores atualizam sua lista de conhecidos nesse método
+     * @param message
+     */
+    public void updateGenerator(Message message) {
+        String playerName = message.getPlayer();
+        for (Player p : players) {
+            if (p.isGenerator()){
+                p.setGenerator(false);
+                p.setWasGen(true);
+            }
+            if (p.getName().equals(playerName)) {
+                p.setGenerator(true);
+                p.setWasGen(false);
+            }
+        }
+    }
+
+    public void requestChar(App app, String s) {
+        app.request(new Message(this, Message.CHAR, s));
+    }
+
+    /**
+     * Quando um player é desconectado da partida esse método remove ele da lista de players conectados
+     * @param message
+     */
+    public void playerLeave(Message message) {
+        Player player2Remove = null;
+        for (Player p : players) {
+            if (p.getName().equals(message.getBodyString())) {
+                player2Remove = p;
+                System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
+                        "seguidas e foi desconectado");
+            } else if(!p.isGenerator())
+                System.out.println("O jogador: " + p.getName() + " venceu a rodada por desistência do " +
+                        "adversário.");
+        }
+        players.remove(player2Remove);
+    }
+
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
     }
@@ -134,114 +249,6 @@ public class Player implements Comparable<Player> {
         this.wasGen = wasGen;
     }
 
-    public void handlerKeepAlive(App app, Message message) {
-        String playerName = message.getPlayer();
-        boolean have = false;
-        boolean haveGenerator = false;
-        for (Player p : players) {
-            //System.out.println("player: " + p.getName() + " key: " + p.getPublicKey());
-            if (p.getName().equals(playerName))
-                have = true;
-
-            if (p.isGenerator)
-                haveGenerator = true;
-
-        }
-
-        if (!have)
-            players.add(new Player(playerName, message.getPlayerID(), message.getBodyString()));
-
-        if (!haveGenerator) {
-            if (players.size() >= Game.MAXPLAYERS) {
-                Collections.sort(players);
-                Player player = players.get(0);
-                app.request(new Message(this, Message.NEW_GEN_REQUEST, player.getName()));
-            }
-        }
-    }
-
-    public void checkNewGenerator(App app, Message message) {
-        //System.out.println(app.player().getName() + " novo checkNewGenerator " + message.getPlayer());
-        if (message.getBodyString().equals(name) && !isGenerator) {
-            isGenerator = true;
-            app.setNewHandler();
-            app.updatePlayerKeepAlive();
-            app.request(new Message(this, Message.I_AM_GENERATOR, name));
-            app.ui().registerWordGen();
-        }
-    }
-
-    public void isNext(App app, Message message) {
-        if (message.getBodyString().equals(name)) {
-            //System.out.println("proximo denovo");
-            //if (app.ui().isRunning())
-            //    app.ui().cancelInputThread();
-            //app.ui().nextRound();
-            //app.ui().round();
-            playerRound = new PlayerRound(app.ui());
-        }
-
-    }
-
-    public List<Player> players() {
-        return players;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int compareTo(Player p) {
-        if (this.id > p.getId())
-            return 1;
-        if (this.id < p.getId())
-            return -1;
-        return 0;
-    }
-
-    public void updateGenerator(Message message) {
-        String playerName = message.getPlayer();
-        for (Player p : players) {
-            if (p.isGenerator()){
-                p.setGenerator(false);
-                p.setWasGen(true);
-            }
-            if (p.getName().equals(playerName)) {
-                p.setGenerator(true);
-                p.setWasGen(false);
-            }
-        }
-    }
-
-    public void requestChar(App app, String s) {
-        app.request(new Message(this, Message.CHAR, s));
-    }
-
-    /*public void timedOut(App app, Message message) {
-        if (app.player().getName().equals(message.getBodyString())) {
-            //System.out.println("TIMED OUTTT");
-            app.ui().cancelInputThread();
-        }
-
-    }*/
-
-    /**
-     * Quando um player é desconectado da partida esse método remove ele da lista de players conectados
-     * @param message
-     */
-    public void playerLeave(Message message) {
-        Player player2Remove = null;
-        for (Player p : players) {
-            if (p.getName().equals(message.getBodyString())) {
-                player2Remove = p;
-                System.out.println("O jogador: " + p.getName() + "ficou ausente em 3 jogadas" +
-                        "seguidas e foi desconectado");
-            } else if(!p.isGenerator())
-                System.out.println("O jogador: " + p.getName() + " venceu a rodada por desistência do " +
-                        "adversário.");
-        }
-        players.remove(player2Remove);
-    }
 }
 
 

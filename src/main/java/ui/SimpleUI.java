@@ -8,6 +8,8 @@ import model.PlayerRound;
 import java.util.Scanner;
 
 /**
+ * Classe que contem algumas regras de como montar as linhas da interface.
+ *
  * Created by Bruno on 13/09/2016.
  */
 public class SimpleUI {

@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * Apenas para controlar a interface do usuário pela linhade comando
  * Created by Bruno on 01/10/2016.
  */
 public class PlayerRound {

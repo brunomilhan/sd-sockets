@@ -8,6 +8,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * Classe que fica enviando de tempo em tempo uma mensagem para informar aos outros jogadores
+ * que este jogador ou gerador esta conectado
  * Created by Bruno on 19/09/2016.
  */
 public class KeepAlive {

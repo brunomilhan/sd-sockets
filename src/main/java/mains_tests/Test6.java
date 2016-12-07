@@ -1,12 +1,9 @@
-package tests;
+package mains_tests;
 
 import app.App;
-import app.GenericHandler;
-import model.Message;
-import model.Player;
-import ui.SimpleUI;
 
 /**
+ * Classe principal que inicia o jogo
  * Created by Bruno on 14/09/2016.
  */
 public class Test6 {

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
+ * Classe que implementa a lógica de uma conexão multicast
  * Created by Bruno on 07/09/2016.
  */
 public class Multicast {
@@ -43,6 +44,13 @@ public class Multicast {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Envia uma requisição multicast, esse método recebe uma classe message que foi criada no projeto.
+     * Ela encapsula os dados transmitidos por multicast e transforma em string
+     * @param message
+     * @return
+     */
     public String request(Message message) {
 
         // Mount message body
@@ -60,17 +68,21 @@ public class Multicast {
         }
     }
 
+    /**
+     * Inicia o multicast em uma thread
+     * @param resHandler
+     */
     public void listenHandler(ResHandlerInterface resHandler) {
         threadListener = new Thread(new Listen(resHandler));
         threadListener.start();
     }
 
-   /* public void changeListenerHandler(ResHandlerInterface handler) {
-        threadListener.interrupt();
-        threadListener = new Thread(new Listen(handler));
-        threadListener.start();
-    }*/
-
+    /**
+     * Classe runnable que escuta o multicast em uma thread
+     *
+     * Quando uma mensagem é recebida ela é enviada para o handler manipular a resposta
+     * @see ResHandlerInterface
+     */
     private class Listen implements Runnable {
         ResHandlerInterface resHandlerInterface;
 
@@ -86,10 +98,6 @@ public class Multicast {
                     multicastSocket.receive(response);
 
                     Message message1 = new Message(response.getData());
-
-                    // debug
-                    //if (!message1.getType().equals(Message.KEEPALIVE))
-                    //System.out.println("\nReceived:" + message1 + " \n");
 
                     resHandlerInterface.handler(message1);
                 }

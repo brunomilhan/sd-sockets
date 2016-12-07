@@ -4,6 +4,9 @@ import connection.ResHandlerInterface;
 import model.Message;
 
 /**
+ * Onde as requisições são recebidas e encaminhadas aos métodos que tratará a mensagem
+ * É aqui que ele verifica as chaves publicas e primarias antes de efetuar a lógica.
+ * Todos métodos verificam as chaves menos as mensagens de keepalive
  * Created by Bruno on 14/09/2016.
  */
 public class GenericHandler implements ResHandlerInterface {
@@ -31,15 +34,9 @@ public class GenericHandler implements ResHandlerInterface {
                 if (type.equals(Message.GAME_INFO)) {
                     System.out.println(message.getBodyString());
                 }
-                /*if (type.equals(Message.I_AM_GENERATOR)) {
-                    app.player().updateGenerator(message);
-                }*/
                 if (type.equals(Message.I_AM_GENERATOR)) {
                     app.player().updateGenerator(message);
                 }
-               /*if (type.equals(Message.EXPIRE_TIME_2)){
-                    app.player().timedOut(app, message);
-                }*/
                 if (type.equals(Message.GEN_WORD)) {
                     app.player().playerLeave(message);
                 }

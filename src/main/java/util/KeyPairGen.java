@@ -12,36 +12,9 @@ import java.security.spec.X509EncodedKeySpec;
  * Created by Bruno on 13/09/2016.
  */
 public class KeyPairGen {
-    /*SecureRandom random = null;
-    KeyPairGenerator keyGen = null;*/
 
     private PublicKey publicKey;
     private PrivateKey privateKey;
-
-
-    /*public KeyPairGen(){
-        try {
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("SHA1PRNG", "SUN");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
-        try {
-            random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void generateKeyPair(){
-        keyGen.initialize(512);
-        KeyPair pair = keyGen.generateKeyPair();
-        PrivateKey privateKey = pair.getPrivate();
-        PublicKey publicKey = pair.getPublic();
-    }*/
 
     public void generateKeyPair() {
         KeyPair keyPair = null;
@@ -80,26 +53,6 @@ public class KeyPairGen {
         return new String(cipher.doFinal(bytesDecoded));
     }
 
-
-    public static byte[] encrypt(byte[] inpBytes, PrivateKey key) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        return cipher.doFinal(inpBytes);
-    }
-
-    public static byte[] decrypt(byte[] string, String key) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, str2PubKey(key));
-        return cipher.doFinal(string);
-    }
-
-    /*public byte[] getPubKey(){
-        byte[] key;
-        key = publicKey.getEncoded();
-        System.out.println(key.length);
-        return key;
-        Base64.encode(publicKey.getEncoded());
-    }*/
     public String getPubKey() {
         String key = Base64.encode(publicKey.getEncoded());
         System.out.println(key);

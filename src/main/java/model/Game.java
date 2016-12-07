@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Constantes que configuram o jogo
  * Created by Bruno on 12/09/2016.
  */
 public class Game {

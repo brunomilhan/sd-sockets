@@ -4,6 +4,7 @@ import app.App;
 import generator.GeneratorRound;
 
 /**
+ * Classe modelo e regras de negocios de um gerador de palavra
  * Created by Bruno on 12/09/2016.
  */
 public class WordGenerator extends Player {
@@ -43,6 +44,11 @@ public class WordGenerator extends Player {
             countPlayerMoves(app, message.getPlayer(), false, false);
     }
 
+    /**
+     * Verifica se a palavra enviada esta correta
+     * @param message
+     * @param app
+     */
     public void receiveWord(Message message, App app) {
         round.purgeTimers();
         updateScore(app, message);
@@ -50,6 +56,11 @@ public class WordGenerator extends Player {
             countPlayerMoves(app, message.getPlayer(), false, false);
     }
 
+    /**
+     * Quando um jogador desiste da rodada
+     * @param message
+     * @param app
+     */
     public void receiveLeave(Message message, App app) {
         round.purgeTimers();
         refreshGameInfo(app, message);
@@ -57,13 +68,18 @@ public class WordGenerator extends Player {
         round.purgeTimers();
     }
 
+    /**
+     * Inicia a primeira rodada
+     */
     public void requestFirstPlayer(App app) {
-        /*String playerName = app.player().players().get(1).getName();
-        app.request(new Message(app.player(), Message.NEXT, playerName));
-        round.setMovesTimer(app, playerName);*/
         countPlayerMoves(app, app.player().getName(), false, false);
     }
 
+    /**
+     * conta quantos rodadas o jogador falhou
+     * @param message
+     * @param app
+     */
     public void countMatchesFails(Message message, App app) {
         for (Player p : app.player().players()) {
             if (p.getName().equals(message.getBodyString())) {
@@ -84,13 +100,16 @@ public class WordGenerator extends Player {
     private boolean checkWordComplete(App app) {
         boolean isComplete = false;
         if (lastWord.equals(finalWord)) {
-            //app.request(new Message(app.player(), Message.GEN_WORD, "word"));
 
             isComplete = true;
         }
         return isComplete;
     }
 
+    /**
+     * quando a palavra é advinhada e a partida termina então é feito uma requisição para o proximo gerador assumir
+     * @param app
+     */
     private void requestNewGenerator(App app){
         app.player().setGenerator(false);
         app.player().setWasGen(true);
@@ -104,6 +123,11 @@ public class WordGenerator extends Player {
 
     }
 
+    /**
+     * atualiza os pontos do jogador
+     * @param app
+     * @param messsage
+     */
     private void updateScore(App app, Message messsage) {
         boolean correct = false;
         boolean isWord = false;
@@ -168,6 +192,12 @@ public class WordGenerator extends Player {
         }
     }
 
+    /**
+     * envia uma requisição mostrando as novas estatisticas
+     * @param app
+     * @param message
+     * @return
+     */
     private boolean refreshGameInfo(App app, Message message) {
         String scoreBoard = "";
         String complete = "";
@@ -191,6 +221,10 @@ public class WordGenerator extends Player {
         return finish;
     }
 
+    /**
+     * monta a palavra adivinhada até o momento e envia na requisição de estatisticas
+     * @param c
+     */
     private void mountWord(String c) {
         if (this.lastWord.length() == 0) {
             this.lastCharWord = new char[this.finalWord.length()];
